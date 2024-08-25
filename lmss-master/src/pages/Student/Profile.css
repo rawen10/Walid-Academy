@@ -1,0 +1,79 @@
+/* Import a Google Font for better appearance */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Roboto', sans-serif;
+  padding: 20px;
+  background-color: #f0f2f5;
+  min-height: 100vh;
+  direction: rtl;
+ 
+}
+
+.profile-content {
+  display: flex;
+  justify-content: space-between;
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 20px;
+}
+
+.user-info-section, .bank-details-section {
+  width: 48%;
+}
+
+.user-info-section h2, .bank-details-section h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 24px;
+}
+
+.edit-button {
+  display: block;
+  margin: 20px auto;
+  padding: 12px 30px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+
+.edit-button:hover {
+  background-color: #218838;
+}
+
+.user-info p, .bank-info p {
+  margin: 10px 0;
+  font-size: 18px;
+  color: #555;
+}
+
+.bank-details {
+  width: 100%;
+}
+
+.bank-info {
+  background-color: #e9ecef;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.bank-info strong {
+  color: #007bff;
+  display: block;
+  margin-bottom: 5px;
+}

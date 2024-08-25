@@ -1,0 +1,52 @@
+/* Import a Google Font for better appearance */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+.period-details {
+  padding: 20px;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+
+}
+
+.period-details h1 {
+  color: #007bff;
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.lessons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.lesson-card {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 200px; /* Adjust as needed */
+  text-align: center;
+  transition: transform 0.3s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.lesson-card:hover {
+  transform: translateY(-10px);
+}
+
+.lesson-card img {
+  width: 150px; /* Adjust as needed */
+  height: 150px; /* Ensure the images are not too large */
+  margin-bottom: 20px;
+  border-radius: 50%; /* Circular image */
+}
+
+.lesson-card h2 {
+  color: #343a40;
+  font-size: 20px;
+  font-weight: 700;
+}

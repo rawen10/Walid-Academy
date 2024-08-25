@@ -1,0 +1,120 @@
+/* AdminSubjects.css */
+
+.admin-subjects-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f7f7f7;
+  font-family: 'Arial', sans-serif;
+  direction: rtl;
+  text-align: right;
+}
+
+.admin-subjects-content {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 800px;
+}
+
+h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 20px;
+  color: #555;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 5px;
+}
+
+.section {
+  margin-bottom: 30px;
+}
+
+input[type="text"], select {
+  width: calc(100% - 20px);
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  margin-top: 5px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.subjects-list, .periods-list, .lessons-list {
+  margin-top: 15px;
+}
+
+.subject-item, .period-item, .lesson-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.subject-item input, .period-item input, .lesson-item input {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.subject-item button, .period-item button, .lesson-item button {
+  margin-left: 10px;
+}
+
+.subject-item button:last-child, 
+.period-item button:last-child, 
+.lesson-item button:last-child {
+  margin-left: auto;
+}
+
+.lesson-item input {
+  margin-bottom: 10px;
+}
+
+.p-fileupload {
+  margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+  .admin-subjects-content {
+      padding: 15px;
+  }
+
+  h1 {
+      font-size: 20px;
+  }
+
+  h2 {
+      font-size: 18px;
+  }
+
+  button {
+      padding: 8px 12px;
+      font-size: 14px;
+  }
+
+  input[type="text"], select {
+      font-size: 14px;
+  }
+}

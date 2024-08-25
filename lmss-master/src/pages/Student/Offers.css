@@ -1,0 +1,77 @@
+/* Import a Google Font for better appearance */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+.offers-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Roboto', sans-serif;
+}
+
+.offer-content {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+
+.offer-content h2 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #343a40;
+}
+
+.offer-content p {
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #666;
+}
+
+.offer-details {
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+}
+
+.offer-details h3 {
+  margin-bottom: 10px;
+  font-size: 24px;
+  color: #007bff;
+}
+
+.offer-details p {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #666;
+}
+
+.offer-details ul {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.offer-details ul li {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.subscribe-button {
+  background-color: #28a745;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s;
+}
+
+.subscribe-button:hover {
+  background-color: #218838;
+}

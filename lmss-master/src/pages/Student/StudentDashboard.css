@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+  background-color: #f0f2f5;
+}
+
+.dashboard-content {
+  margin-top: 100px; /* Ensures it is below the navbar */
+  padding: 20px;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+
+}
+
+h1 {
+  color: #007bff;
+  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: 700;
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+.welcome-message {
+  color: #343a40;
+  font-size: 18px;
+  margin-bottom: 40px;
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+.subjects {
+  display: flex;
+  justify-content: center;
+  gap: 40px; /* Space between the subject cards */
+  flex-wrap: wrap; /* Wrap cards on smaller screens */
+  animation: slideUp 1.5s ease-in-out;
+}
+
+.subject-card {
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  width: 270px; /* Increase the width for better appearance */
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.subject-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.subject-card img {
+  width: 150px; /* Adjust as needed */
+  height: 150px; /* Ensure the images are not too large */
+  margin-bottom: 20px;
+  border-radius: 50%; /* Circular image */
+  transition: transform 0.3s;
+}
+
+.subject-card img:hover {
+  transform: scale(1.1);
+}
+
+.subject-card h2 {
+  color: #343a40;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.tips {
+  margin-top: 40px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.tips h2 {
+  color: #007bff;
+  font-size: 24px;
+  margin-bottom: 20px;
+  border-bottom: 3px solid #007bff;
+  padding-bottom: 10px;
+  position: relative;
+}
+
+.tips h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background-color: #007bff;
+  border-radius: 2px;
+  animation: pulse 1s infinite;
+}
+
+.tips ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.tips li {
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  font-size: 18px;
+  color: #343a40;
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  cursor: pointer;
+}
+
+.tips li:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.tips li::before {
+  content: '✔';
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #007bff;
+}
+
+.tips li span {
+  display: block;
+  margin-left: 35px;
+}
+
+/* Keyframes for animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0% { transform: scaleX(1); }
+  50% { transform: scaleX(1.1); }
+  100% { transform: scaleX(1); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .subject-card {
+    width: 80%;
+    margin-bottom: 20px;
+  }
+
+  .subject-card img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .subjects {
+    gap: 20px;
+  }
+
+  .tips {
+    padding: 10px;
+  }
+
+  .tips li {
+    font-size: 16px;
+  }
+}
