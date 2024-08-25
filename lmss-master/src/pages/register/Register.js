@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Register.css';
 import Header from '../../component/NavBar/header';
+import axios from 'axios';
 
 const RegistrationForm = () => {
   const [form, setForm] = useState({
@@ -8,12 +9,14 @@ const RegistrationForm = () => {
     name: '',
     phone: '',
     birthdate: '',
-    email: '', // Added email field
+    email: '',
     password: '',
     confirmPassword: '',
     state: '',
     grade: '',
   });
+
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     setForm({
@@ -22,11 +25,36 @@ const RegistrationForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
-    console.log(form);
+    if (form.password !== form.confirmPassword) {
+      setError('Les mots de passe ne correspondent pas');
+      return;
+    }
+  
+    try {
+      const response = await axios.post('http://localhost:4000/users/AddUser', {
+        prenom: form.surname,  // Correspond à "prenom" dans le DTO
+        nom: form.name,  // Correspond à "nom" dans le DTO
+        telephone: form.phone,  // Correspond à "telephone" dans le DTO
+        birthdate: form.birthdate,  // Ce champ n'existe pas dans le DTO, à ignorer ou ajouter dans DTO
+        email: form.email,
+        password: form.password,
+        lieux: form.state,  // Correspond à "lieux" dans le DTO
+        classe: form.grade,  // Correspond à "classe" dans le DTO
+        role: 'Student',  // Ajouter ce champ manuellement ou le gérer dans le formulaire
+      });
+      console.log("hhhhhhhhhh")
+      if (response.status === 201) {
+        console.log('Utilisateur créé avec succès');
+      }
+      console.log(response,"response")
+    } catch (error) {
+        setError('Une erreur est survenue. Veuillez réessayer plus tard.');
+      }
+    
   };
+  
 
   const states = [
     "أريانة", "باجة", "بنزرت", "تطاوين", "توزر", "تونس", "جندوبة", "زغوان", "سليانة", "سوسة", "سيدي بوزيد", "صفاقس", "قابس", "القصرين", "قبلي", "القيروان", "الكاف", "مدنين", "المنستير", "منوبة", "المهدية", "نابل"
@@ -39,8 +67,10 @@ const RegistrationForm = () => {
   return (
     <div className="container">
       <Header />
-      <form className="registration-form" onSubmit={handleSubmit}>
+      <form className="registration-form" >
         <h1>إنشاء حساب جديد</h1>
+
+        {error && <p className="error-message">{error}</p>}
 
         <label htmlFor="surname">اللقب *</label>
         <input type="text" id="surname" name="surname" value={form.surname} onChange={handleChange} required />
@@ -80,7 +110,7 @@ const RegistrationForm = () => {
           ))}
         </select>
 
-        <button type="submit">إنشاء حساب جديد</button>
+        <button type="submit" onSubmit={handleSubmit}>إنشاء حساب جديد</button>
         <p>هل لديك حساب؟ <a href="#">تسجيل الدخول</a></p>
       </form>
     </div>

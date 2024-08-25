@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import axios from 'axios';
 
 // Importing pages
 import Home from './pages/Home/Home';
@@ -27,8 +28,32 @@ import AdminNavbar from '../src/component/NavBar/AdminNavbar';
 import StudentNavbar from '../src/component/NavBar/studentNavbar';
 
 function AppRouter() {
-  // Mock user role, replace this with actual authentication logic
-  const userRole = "admin"; // Change this to "student" to test student routes
+  const [user, setUser] = useState(null);
+  const [userRole, setUserRole] = useState(null);
+
+  useEffect(() => {
+    const validateToken = async () => {
+      const token = JSON.parse(localStorage.getItem("token"));
+      if (token) {
+        try {
+          const response = await axios.get("http://localhost:3000/auth/getme", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+
+          if (response.data) {
+            setUser(response.data);
+            setUserRole(response.data.role); // Assuming the role is part of the user data
+          }
+        } catch (error) {
+          console.error("Token validation failed:", error);
+          setUser(null);
+          setUserRole(null);
+        }
+      }
+    };
+
+    validateToken(); // Validate the token on load
+  }, []);
 
   return (
     <Router>
@@ -39,7 +64,7 @@ function AppRouter() {
         <Route path="/login" element={<LoginForm />} />
 
         {/* Conditional Routes based on user role */}
-        {userRole === "admin" ? (
+        {user && userRole === "admin" ? (
           <>
             <Route path="/admindashboard" element={<><AdminNavbar /><AdminDashboard /></>} />
             <Route path="/adminprofile" element={<><AdminNavbar /><AdminProfile /></>} />
@@ -49,7 +74,7 @@ function AppRouter() {
             <Route path="/adminhelp" element={<><AdminNavbar /><AdminHelp /></>} />
             <Route path="/adminusers" element={<><AdminNavbar /><AdminUsers /></>} />
           </>
-        ) : (
+        ) : user && userRole === "student" ? (
           <>
             <Route path="/dashboardstudent" element={<><StudentNavbar /><StudentDashboard /></>} />
             <Route path="/profile" element={<><StudentNavbar /><Profile /></>} />
@@ -61,10 +86,10 @@ function AppRouter() {
             <Route path="/subject/:subjectName/period/:periodNumber" element={<><StudentNavbar /><PeriodDetails /></>} />
             <Route path="/subject/:subjectName/period/:periodNumber/lesson/:lessonNumber" element={<><StudentNavbar /><LessonDetails /></>} />
           </>
+        ) : (
+          // Redirect to login if the user is not authenticated
+          <Route path="*" element={<Navigate to="/login" />} />
         )}
-
-        {/* Redirect if the user role does not match */}
-        <Route path="*" element={<Navigate to={userRole === "admin" ? "/admindashboard" : "/dashboardstudent"} />} />
       </Routes>
     </Router>
   );
