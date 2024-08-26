@@ -12,7 +12,7 @@
     "@testing-library/user-event": "^13.5.0",
     "ajv": "^8.16.0",
     "ajv-keywords": "^5.1.0",
-    "axios": "^1.7.2",
+    "axios": "^1.7.5",
     "formik": "^2.4.6",
     "primereact": "^10.8.2",
     "react": "^18.3.1",

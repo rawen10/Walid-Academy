@@ -36,7 +36,7 @@ function AppRouter() {
       const token = JSON.parse(localStorage.getItem("token"));
       if (token) {
         try {
-          const response = await axios.get("http://localhost:3000/auth/getme", {
+          const response = await axios.get("http://localhost:4000/auth/getme", {
             headers: { Authorization: `Bearer ${token}` },
           });
 
@@ -63,8 +63,7 @@ function AppRouter() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<LoginForm />} />
 
-        {/* Conditional Routes based on user role */}
-        {user && userRole === "admin" ? (
+        {user && userRole === "Admin" ? (
           <>
             <Route path="/admindashboard" element={<><AdminNavbar /><AdminDashboard /></>} />
             <Route path="/adminprofile" element={<><AdminNavbar /><AdminProfile /></>} />
@@ -74,7 +73,7 @@ function AppRouter() {
             <Route path="/adminhelp" element={<><AdminNavbar /><AdminHelp /></>} />
             <Route path="/adminusers" element={<><AdminNavbar /><AdminUsers /></>} />
           </>
-        ) : user && userRole === "student" ? (
+        ) : user && userRole === "Student" ? (
           <>
             <Route path="/dashboardstudent" element={<><StudentNavbar /><StudentDashboard /></>} />
             <Route path="/profile" element={<><StudentNavbar /><Profile /></>} />

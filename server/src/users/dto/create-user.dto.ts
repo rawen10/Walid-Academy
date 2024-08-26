@@ -20,5 +20,6 @@ export class CreateUsersDto {
   @ApiProperty()
   @IsEnum(UserRole, { message: 'Role must be either Admin or Student' })
   role: UserRole;
- 
+  @ApiProperty()
+  naissance: string;
 }

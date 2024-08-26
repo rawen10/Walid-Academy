@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
-import './Login.css';
-import Header from '../../component/NavBar/header';
+import React, { useState } from "react";
+import "./Login.css";
+import Header from "../../component/NavBar/header";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const [form, setForm] = useState({
-    emailOrPhone: '',
-    password: '',
+    email: "",
+    password: "",
   });
+
+  const [successMessage, setSuccessMessage] = useState("");  // Ajouter un état pour le message de succès
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({
@@ -15,10 +20,26 @@ const LoginForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
-    console.log(form);
+    try {
+      const response = await axios.post("http://localhost:4000/auth/login", {
+        email: form.email,
+        password: form.password,
+      });
+      localStorage.setItem("token", JSON.stringify(response?.data));
+      
+      setSuccessMessage("Connexion réussie ! Redirection en cours..."); // Définir le message de succès
+      
+      setTimeout(() => {
+        navigate("/dashboardstudent");  // Rediriger après un délai
+      }, 2000);// Attendre 2 secondes avant de rediriger
+      
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Login failed. Please try again.";
+      console.error(errorMessage);
+    }
   };
 
   return (
@@ -27,12 +48,12 @@ const LoginForm = () => {
       <form className="login-form" onSubmit={handleSubmit}>
         <h1>تسجيل الدخول</h1>
 
-        <label htmlFor="emailOrPhone">رقم الهاتف أو البريد الإلكتروني *</label>
+        <label htmlFor="email">رقم الهاتف أو البريد الإلكتروني *</label>
         <input
           type="text"
-          id="emailOrPhone"
-          name="emailOrPhone"
-          value={form.emailOrPhone}
+          id="email"
+          name="email"
+          value={form.email}
           onChange={handleChange}
           required
         />
@@ -49,10 +70,24 @@ const LoginForm = () => {
         />
         <small>يرجى إدخال كلمة المرور</small>
 
-        <a href="#" className="forgot-password">نسيت كلمة السِّر؟</a>
+        <a href="#" className="forgot-password">
+          نسيت كلمة السِّر؟
+        </a>
 
-        <button type="submit">تسجيل الدخول</button>
-        <p>ليس لديك حساب؟ <a href="/register">انشاء حساب جديد</a></p>
+        <div className="inputBx">
+          <input
+            type="submit"
+            value="تسجيل الدخول"
+            style={{ backgroundColor: "#28a645", color: "white", fontSize: 17 }}
+          />
+        </div>
+        <p>
+          ليس لديك حساب؟ <a href="/register">انشاء حساب جديد</a>
+        </p>
+
+        {successMessage && (
+          <p style={{ color: "green", marginTop: "10px" }}>{successMessage}</p>
+        )}
       </form>
     </div>
   );
