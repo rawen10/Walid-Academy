@@ -23,7 +23,7 @@ import HelpIcon from '@mui/icons-material/Help';
 import SearchIcon from '@mui/icons-material/Search';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { Navigate, NavLink, useLocation } from 'react-router-dom';
 import logo from '../../assets/logo.png'; // Import the logo
 
 const drawerWidth = 240;
@@ -109,6 +109,12 @@ const StudentNavbar = () => {
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token'); 
+    window.location.reload();
+    Navigate('/login'); 
   };
 
   const userName = "فراس مزوغي";
@@ -198,8 +204,8 @@ const StudentNavbar = () => {
                 justifyContent: isSidebarOpen ? 'initial' : 'center',
                 px: 2.5,
               }}
-              component={NavLink}
-              to="/login"
+              onClick={handleLogout} // Attach the handleLogout function here
+
             >
               <ListItemIcon
                 sx={{
