@@ -58,12 +58,25 @@ function AppRouter() {
   return (
     <Router>
       <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<LoginForm />} />
+        {/* Redirect to dashboard if user is authenticated */}
+        {user ? (
+          userRole === "Admin" ? (
+            <Route path="*" element={<Navigate to="/admindashboard" />} />
+          ) : userRole === "Student" ? (
+            <Route path="*" element={<Navigate to="/dashboardstudent" />} />
+          ) : null
+        ) : (
+          <>
+            {/* Public Routes */}
+            <Route path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </>
+        )}
 
-        {user && userRole === "Admin" ? (
+        {/* Admin Routes */}
+        {user && userRole === "Admin" && (
           <>
             <Route path="/admindashboard" element={<><AdminNavbar /><AdminDashboard /></>} />
             <Route path="/adminprofile" element={<><AdminNavbar /><AdminProfile /></>} />
@@ -73,7 +86,10 @@ function AppRouter() {
             <Route path="/adminhelp" element={<><AdminNavbar /><AdminHelp /></>} />
             <Route path="/adminusers" element={<><AdminNavbar /><AdminUsers /></>} />
           </>
-        ) : user && userRole === "Student" ? (
+        )}
+
+        {/* Student Routes */}
+        {user && userRole === "Student" && (
           <>
             <Route path="/dashboardstudent" element={<><StudentNavbar /><StudentDashboard /></>} />
             <Route path="/profile" element={<><StudentNavbar /><Profile /></>} />
@@ -85,9 +101,6 @@ function AppRouter() {
             <Route path="/subject/:subjectName/period/:periodNumber" element={<><StudentNavbar /><PeriodDetails /></>} />
             <Route path="/subject/:subjectName/period/:periodNumber/lesson/:lessonNumber" element={<><StudentNavbar /><LessonDetails /></>} />
           </>
-        ) : (
-          // Redirect to login if the user is not authenticated
-          <Route path="*" element={<Navigate to="/login" />} />
         )}
       </Routes>
     </Router>

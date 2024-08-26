@@ -29,11 +29,13 @@ const LoginForm = () => {
       });
       localStorage.setItem("token", JSON.stringify(response?.data));
       
-      setSuccessMessage("Connexion réussie ! Redirection en cours..."); // Définir le message de succès
+      setSuccessMessage("Connexion réussie ! Redirection en cours..."); 
+      window.location.reload();
+
       
-      setTimeout(() => {
-        navigate("/dashboardstudent");  // Rediriger après un délai
-      }, 2000);// Attendre 2 secondes avant de rediriger
+      // setTimeout(() => {
+      //   navigate("/dashboardstudent");  // Rediriger après un délai
+      // }, 2000);// Attendre 2 secondes avant de rediriger
       
     } catch (error) {
       const errorMessage =
