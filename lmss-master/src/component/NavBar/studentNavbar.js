@@ -102,7 +102,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-const StudentNavbar = () => {
+const StudentNavbar = ({user}) => {
   const theme = useTheme();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
@@ -117,8 +117,8 @@ const StudentNavbar = () => {
     Navigate('/login'); 
   };
 
-  const userName = "فراس مزوغي";
-  const userClass = "الخامسة ابتدائي";
+  const userName =  `${user?.prenom} ${user?.nom}`;
+  const userClass =  `${user?.classe}`;
 
   return (
     <Box sx={{ display: 'flex' }}>

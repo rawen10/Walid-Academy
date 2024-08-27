@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import './AdminProfile.css';
 
-const AdminProfile = () => {
+const AdminProfile = ({user}) => {
   return (
     <div className="admin-profile-container">
      
@@ -14,13 +14,13 @@ const AdminProfile = () => {
             alt="Admin Profile" 
             className="profile-picture" 
           />
-          <h1>وليد بوحوش</h1>
+          <h1> {user?.prenom} {user?.nom}</h1>
         </div>
         <div className="profile-details">
           <h2>معلومات الحساب</h2>
-          <p><strong>الإسم:</strong> وليد بوحوش</p>
-          <p><strong>البريد الإلكتروني:</strong> walid@example.com</p>
-          <p><strong>رقم الهاتف:</strong> +216 12345678</p>
+          <p><strong>الإسم:</strong> {user?.prenom} {user?.nom}</p>
+          <p><strong>البريد الإلكتروني:</strong> {user?.email}</p>
+          <p><strong>رقم الهاتف:</strong> {user?.telephone}</p>
         </div>
         <div className="profile-actions">
           <Link to="/adminprofile/edit" className="edit-button-link">

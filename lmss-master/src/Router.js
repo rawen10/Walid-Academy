@@ -50,6 +50,7 @@ function AppRouter() {
           setUserRole(null);
         }
       }
+      console.log("user",user)
     };
 
     validateToken(); // Validate the token on load
@@ -78,28 +79,28 @@ function AppRouter() {
         {/* Admin Routes */}
         {user && userRole === "Admin" && (
           <>
-            <Route path="/admindashboard" element={<><AdminNavbar /><AdminDashboard /></>} />
-            <Route path="/adminprofile" element={<><AdminNavbar /><AdminProfile /></>} />
-            <Route path="/adminprofile/edit" element={<><AdminNavbar /><AdminProfileEdit /></>} />
-            <Route path="/adminprofile/changepassword" element={<><AdminNavbar /><AdminChangePassword /></>} />
-            <Route path="/adminsubjects" element={<><AdminNavbar /><AdminSubjects /></>} />
-            <Route path="/adminhelp" element={<><AdminNavbar /><AdminHelp /></>} />
-            <Route path="/adminusers" element={<><AdminNavbar /><AdminUsers /></>} />
+            <Route path="/admindashboard" element={<><AdminNavbar user={user}  /><AdminDashboard /></>} />
+            <Route path="/adminprofile" element={<><AdminNavbar user={user} /><AdminProfile user={user} /></>} />
+            <Route path="/adminprofile/edit" element={<><AdminNavbar user={user} /><AdminProfileEdit /></>} />
+            <Route path="/adminprofile/changepassword" element={<><AdminNavbar user={user} /><AdminChangePassword /></>} />
+            <Route path="/adminsubjects" element={<><AdminNavbar user={user} /><AdminSubjects /></>} />
+            <Route path="/adminhelp" element={<><AdminNavbar user={user} /><AdminHelp /></>} />
+            <Route path="/adminusers" element={<><AdminNavbar user={user} /><AdminUsers /></>} />
           </>
         )}
 
         {/* Student Routes */}
         {user && userRole === "Student" && (
           <>
-            <Route path="/dashboardstudent" element={<><StudentNavbar /><StudentDashboard /></>} />
-            <Route path="/profile" element={<><StudentNavbar /><Profile /></>} />
-            <Route path="/profile/edit" element={<><StudentNavbar /><ProfileEdit /></>} />
-            <Route path="/offers" element={<><StudentNavbar /><Offers /></>} />
-            <Route path="/subjects" element={<><StudentNavbar /><Subjects /></>} />
-            <Route path="/help" element={<><StudentNavbar /><Help /></>} />
-            <Route path="/subject/:subjectName" element={<><StudentNavbar /><SubjectDetails /></>} />
-            <Route path="/subject/:subjectName/period/:periodNumber" element={<><StudentNavbar /><PeriodDetails /></>} />
-            <Route path="/subject/:subjectName/period/:periodNumber/lesson/:lessonNumber" element={<><StudentNavbar /><LessonDetails /></>} />
+            <Route path="/dashboardstudent" element={<><StudentNavbar user={user} /><StudentDashboard /></>} />
+            <Route path="/profile" element={<><StudentNavbar user={user} /><Profile /></>} />
+            <Route path="/profile/edit" element={<><StudentNavbar user={user} /><ProfileEdit /></>} />
+            <Route path="/offers" element={<><StudentNavbar user={user} /><Offers /></>} />
+            <Route path="/subjects" element={<><StudentNavbar user={user} /><Subjects /></>} />
+            <Route path="/help" element={<><StudentNavbar user={user} /><Help /></>} />
+            <Route path="/subject/:subjectName" element={<><StudentNavbar user={user} /><SubjectDetails /></>} />
+            <Route path="/subject/:subjectName/period/:periodNumber" element={<><StudentNavbar user={user} /><PeriodDetails /></>} />
+            <Route path="/subject/:subjectName/period/:periodNumber/lesson/:lessonNumber" element={<><StudentNavbar user={user} /><LessonDetails /></>} />
           </>
         )}
       </Routes>

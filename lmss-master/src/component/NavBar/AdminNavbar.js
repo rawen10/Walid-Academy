@@ -100,7 +100,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-const AdminNavbar = () => {
+const AdminNavbar = ({ user }) => {
   const theme = useTheme();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
@@ -114,7 +114,8 @@ const AdminNavbar = () => {
     window.location.reload();
     Navigate("/login");
   };
-  const adminName = "وليد بوحوش";
+  const adminName =  `${user?.prenom} ${user?.nom}`;
+  console.log(user,"user")
 
   return (
     <Box sx={{ display: "flex" }}>
