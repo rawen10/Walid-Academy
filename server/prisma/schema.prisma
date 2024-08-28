@@ -1,9 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,44 +10,62 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 enum UserRole {
   Admin
   Student
 }
-model User {
-  id       Int     @id @default(autoincrement())
-  nom String
-    prenom String
-telephone String?
-  email    String @unique
-  password String
-  classe String?
-  naissance String?
-  lieux String?
-    role UserRole @default(Student)
-    access Boolean @default(true)
 
+// Ajout de l'enum pour les classes (4ème, 5ème)
+enum ClasseLevel {
+  Quatrieme // 4ème
+  Cinquieme // 5ème
+  Sixeme
 }
+// Nouveau modèle Classe qui contient les Subjects
+model Classe {
+  id       Int       @id @default(autoincrement())
+  name     ClasseLevel
+  subjects Subject[] // Une classe peut avoir plusieurs subjects
+  users User[]
+}
+
+
+model User {
+  id         Int       @id @default(autoincrement())
+  nom        String
+  prenom     String
+  telephone  String?
+  email      String    @unique
+  password   String
+  classe     Classe?   @relation(fields: [classeId], references: [id])
+  naissance  String?
+  lieux      String?
+  role       UserRole  @default(Student)
+  access     Boolean   @default(true)
+  classeId   Int?      // Clé étrangère vers la classe
+}
+
 
 model Subject {
   id        Int       @id @default(autoincrement())
   name      String
-  periods   Period[]  @relation("SubjectPeriods")
+  periods   Period[]
+  classe    Classe?   @relation(fields: [classeId], references: [id]) // Relation avec Classe
+  classeId  Int?      // Clé étrangère vers la classe
 }
 
 model Period {
-  id         Int       @id @default(autoincrement())
-  name       String
-  subjectId  Int
-  subject    Subject   @relation("SubjectPeriods", fields: [subjectId], references: [id])
-  lessons    Lesson[]  @relation("PeriodLessons")
+  id        Int       @id @default(autoincrement())
+  name      String
+  subject   Subject   @relation(fields: [subjectId], references: [id], onDelete: Cascade) 
+  subjectId Int       
+  lessons   Lesson[]
 }
 
 model Lesson {
-  id         Int       @id @default(autoincrement())
-  title      String
-  content    String
-  periodId   Int
-  period     Period    @relation("PeriodLessons", fields: [periodId], references: [id])
+  id        Int       @id @default(autoincrement())
+  title     String
+  content   String
+  period    Period    @relation(fields: [periodId], references: [id], onDelete: Cascade)
+  periodId  Int
 }

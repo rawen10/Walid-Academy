@@ -138,7 +138,7 @@ const StudentNavbar = ({user}) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-            {userName} - {userClass}
+            {userName} 
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <img src={logo} alt="Logo" style={{ height: 40, marginLeft: 'auto' }} />
