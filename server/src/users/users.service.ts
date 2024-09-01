@@ -16,6 +16,7 @@ export class UsersService {
       throw new ConflictException('Email already exists');
     }
 
+    
     const { password, ...rest } = dto;
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hashSync(password, salt);

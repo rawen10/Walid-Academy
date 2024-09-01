@@ -15,6 +15,7 @@ enum UserRole {
   Student
 }
 
+
 // Ajout de l'enum pour les classes (4ème, 5ème)
 enum ClasseLevel {
   Quatrieme // 4ème
