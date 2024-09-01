@@ -23,7 +23,7 @@ export class UsersService {
     return await this.prisma.user.create({
       data: { ...rest, password: hashedPassword },
     });
-  }
+  } 
 
   async findAll() {
     return await this.prisma.user.findMany();
