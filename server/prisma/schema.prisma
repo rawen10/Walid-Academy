@@ -15,19 +15,7 @@ enum UserRole {
   Student
 }
 
-// Ajout de l'enum pour les classes (4ème, 5ème)
-enum ClasseLevel {
-  Quatrieme // 4ème
-  Cinquieme // 5ème
-  Sixeme
-}
-// Nouveau modèle Classe qui contient les Subjects
-model Classe {
-  id       Int       @id @default(autoincrement())
-  name     ClasseLevel
-  subjects Subject[] // Une classe peut avoir plusieurs subjects
-  users User[]
-}
+
 
 
 model User {
@@ -37,12 +25,11 @@ model User {
   telephone  String?
   email      String    @unique
   password   String
-  classe     Classe?   @relation(fields: [classeId], references: [id])
   naissance  String?
   lieux      String?
   role       UserRole  @default(Student)
-  access     Boolean   @default(true)
-  classeId   Int?      // Clé étrangère vers la classe
+  access     Boolean?   @default(false)
+  classe   String?      // Clé étrangère vers la classe
 }
 
 
@@ -50,8 +37,6 @@ model Subject {
   id        Int       @id @default(autoincrement())
   name      String
   periods   Period[]
-  classe    Classe?   @relation(fields: [classeId], references: [id]) // Relation avec Classe
-  classeId  Int?      // Clé étrangère vers la classe
 }
 
 model Period {

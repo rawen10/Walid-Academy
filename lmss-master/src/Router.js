@@ -36,7 +36,7 @@ function AppRouter() {
       const token = JSON.parse(localStorage.getItem("token"));
       if (token) {
         try {
-          const response = await axios.get("http://localhost:4000/auth/getme", {
+          const response = await axios.get("http://localhost:5000/auth/getme", {
             headers: { Authorization: `Bearer ${token}` },
           });
 

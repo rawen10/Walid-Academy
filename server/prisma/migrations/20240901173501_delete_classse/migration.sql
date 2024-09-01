@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "User" ALTER COLUMN "access" DROP NOT NULL,
+ALTER COLUMN "access" SET DEFAULT false;
