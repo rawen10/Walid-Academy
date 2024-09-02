@@ -15,8 +15,8 @@ export class CreateUsersDto {
   telephone: string;
   @ApiProperty()
   lieux: string;
-  @ApiProperty()
-  classe: string;
+  // @ApiProperty()
+  // classe: string;
   @ApiProperty()
   @IsEnum(UserRole, { message: 'Role must be either Admin or Student' })
   role: UserRole;

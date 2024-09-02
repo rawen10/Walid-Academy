@@ -36,7 +36,7 @@ const RegistrationForm = () => {
 
     try {
       console.log("Sending request...");
-      const response = await axios.post("http://localhost:4000/users/AddUser", {
+      const response = await axios.post("http://localhost:5000/users/AddUser", {
         prenom: form.surname,
         nom: form.name,
         telephone: form.phone,

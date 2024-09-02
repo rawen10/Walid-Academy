@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { FileUpload } from 'primereact/fileupload';
 import './AdminSubjects.css';
 
 const AdminSubjects = () => {
@@ -70,24 +69,6 @@ const AdminSubjects = () => {
     setSubjects(updatedSubjects);
   };
 
-  const handleFileUpload = (event, type) => {
-    console.log(`Uploading ${type}`);
-    customBase64Uploader(event, type);
-  };
-
-  const customBase64Uploader = async (event, type) => {
-    const file = event.files[0];
-    const reader = new FileReader();
-    let blob = await fetch(file.objectURL).then((r) => r.blob());
-
-    reader.readAsDataURL(blob);
-
-    reader.onloadend = function () {
-      const base64data = reader.result;
-      console.log(`${type} uploaded successfully as base64.`);
-    };
-  };
-
   return (
     <div className="admin-subjects-container">
       <div className="admin-subjects-content">
@@ -119,18 +100,6 @@ const AdminSubjects = () => {
             />
             <button onClick={handleAddSubject}>إضافة المادة</button>
             
-            {/* Upload Image for Subject */}
-            <div className="upload-section">
-              <h3>تحميل صورة المادة</h3>
-              <FileUpload 
-                mode="basic" 
-                name="subject-image" 
-                accept="image/*" 
-                customUpload 
-                uploadHandler={(e) => handleFileUpload(e, 'صورة المادة')} 
-              />
-            </div>
-            
             <div className="subjects-list">
               {subjects
                 .filter(subject => subject.className === selectedClass)
@@ -161,18 +130,6 @@ const AdminSubjects = () => {
             />
             <button onClick={handleAddPeriod}>إضافة الفترة</button>
 
-            {/* Upload Image for Period */}
-            <div className="upload-section">
-              <h3>تحميل صورة الفترة</h3>
-              <FileUpload 
-                mode="basic" 
-                name="period-image" 
-                accept="image/*" 
-                customUpload 
-                uploadHandler={(e) => handleFileUpload(e, 'صورة الفترة')} 
-              />
-            </div>
-
             <div className="periods-list">
               {subjects[selectedSubjectIndex].periods.map((period, index) => (
                 <div key={index} className="period-item">
@@ -200,43 +157,18 @@ const AdminSubjects = () => {
               value={newLesson.name}
               onChange={(e) => setNewLesson({ ...newLesson, name: e.target.value })}
             />
-
-            {/* Upload Image for Lesson */}
-            <div className="upload-section">
-              <h3>تحميل صورة الدرس</h3>
-              <FileUpload 
-                mode="basic" 
-                name="lesson-image" 
-                accept="image/*" 
-                customUpload 
-                uploadHandler={(e) => handleFileUpload(e, 'صورة الدرس')} 
-              />
-            </div>
-
-            {/* Upload Video for Lesson */}
-            <div className="upload-section">
-              <h3>تحميل فيديو الدرس</h3>
-              <FileUpload 
-                mode="basic" 
-                name="lesson-video" 
-                accept="video/*" 
-                customUpload 
-                uploadHandler={(e) => handleFileUpload(e, 'فيديو الدرس')} 
-              />
-            </div>
-
-            {/* Upload PowerPoint for Lesson */}
-            <div className="upload-section">
-              <h3>تحميل عرض PowerPoint للدرس</h3>
-              <FileUpload 
-                mode="basic" 
-                name="lesson-ppt" 
-                accept=".ppt,.pptx" 
-                customUpload 
-                uploadHandler={(e) => handleFileUpload(e, 'عرض PowerPoint')} 
-              />
-            </div>
-
+            <input
+              type="text"
+              placeholder="رابط فيديو الدرس (Google Drive)"
+              value={newLesson.videoLink}
+              onChange={(e) => setNewLesson({ ...newLesson, videoLink: e.target.value })}
+            />
+            <input
+              type="text"
+              placeholder="رابط PowerPoint الدرس (Google Drive)"
+              value={newLesson.pptLink}
+              onChange={(e) => setNewLesson({ ...newLesson, pptLink: e.target.value })}
+            />
             <button onClick={handleAddLesson}>إضافة الدرس</button>
             
             <div className="lessons-list">
@@ -246,6 +178,18 @@ const AdminSubjects = () => {
                     type="text"
                     value={lesson.name}
                     onChange={(e) => handleEditLesson(index, { ...lesson, name: e.target.value })}
+                  />
+                  <input
+                    type="text"
+                    value={lesson.videoLink}
+                    onChange={(e) => handleEditLesson(index, { ...lesson, videoLink: e.target.value })}
+                    placeholder="رابط فيديو الدرس (Google Drive)"
+                  />
+                  <input
+                    type="text"
+                    value={lesson.pptLink}
+                    onChange={(e) => handleEditLesson(index, { ...lesson, pptLink: e.target.value })}
+                    placeholder="رابط PowerPoint الدرس (Google Drive)"
                   />
                   <button onClick={() => handleDeleteLesson(index)}>حذف</button>
                 </div>
