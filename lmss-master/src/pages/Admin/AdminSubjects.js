@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './AdminSubjects.css';
 
 const AdminSubjects = () => {
   const classesOptions = ['الرابعة أساسي', 'الخامسة', 'السادسة'];
-  const predefinedSubjects = ['الرياضيات', 'العلوم']; // المواد المحددة مسبقًا
+  const predefinedSubjects = ['الرياضيات', 'العلوم']; // matériaux prédéfinis
 
   const [selectedClass, setSelectedClass] = useState('');
   const [subjects, setSubjects] = useState([]);
@@ -12,16 +13,22 @@ const AdminSubjects = () => {
   const [selectedPeriodIndex, setSelectedPeriodIndex] = useState(null);
   const [newLesson, setNewLesson] = useState({ name: '', videoLink: '', pptLink: '' });
 
-  // عند اختيار الفصل، نقوم بتعيين المواد المحددة مسبقًا لهذا الفصل
+  // Récupérer les subjects depuis l'API lorsqu'une classe est sélectionnée
   useEffect(() => {
     if (selectedClass) {
-      const initialSubjects = predefinedSubjects.map(subject => ({
-        name: subject,
-        periods: []
-      }));
-      setSubjects(initialSubjects);
-      setSelectedSubjectIndex(null);
-      setSelectedPeriodIndex(null);
+      axios.get("http://localhost:5000/subjects")
+        .then(response => {
+          const initialSubjects = response.data.map(subject => ({
+            ...subject,
+            periods: subject.periods || []
+          }));
+          setSubjects(initialSubjects);
+          setSelectedSubjectIndex(null);
+          setSelectedPeriodIndex(null);
+        })
+        .catch(error => {
+          console.error("Erreur lors du chargement des subjects :", error);
+        });
     } else {
       setSubjects([]);
       setSelectedSubjectIndex(null);
@@ -29,12 +36,43 @@ const AdminSubjects = () => {
     }
   }, [selectedClass]);
 
-  const handleDeletePeriod = (periodIndex) => {
-    const updatedSubjects = [...subjects];
-    updatedSubjects[selectedSubjectIndex].periods.splice(periodIndex, 1);
-    setSubjects(updatedSubjects);
-    setSelectedPeriodIndex(null);
+  const handleAddPeriod = () => {
+    if (newPeriod.trim() !== '') {
+      const selectedSubject = subjects[selectedSubjectIndex];
+      axios.post("http://localhost:5000/period", {
+        name: newPeriod,
+        subjectId: selectedSubject.id
+      })
+      .then(response => {
+        const updatedSubjects = [...subjects];
+        updatedSubjects[selectedSubjectIndex].periods.push(response.data);
+        setSubjects(updatedSubjects);
+        setNewPeriod('');
+      })
+      .catch(error => {
+        console.error("Erreur lors de l'ajout de la période :", error);
+      });
+    }
   };
+
+  const handleDeletePeriod = (periodIndex) => {
+    const selectedSubject = subjects[selectedSubjectIndex];
+    const periodToDelete = selectedSubject.periods[periodIndex];
+  
+    // Envoyer une requête DELETE à l'API pour supprimer la période
+    axios.delete(`http://localhost:5000/period/${periodToDelete.id}`)
+      .then(() => {
+        // Mise à jour de l'état local après la suppression réussie
+        const updatedSubjects = [...subjects];
+        updatedSubjects[selectedSubjectIndex].periods.splice(periodIndex, 1);
+        setSubjects(updatedSubjects);
+        setSelectedPeriodIndex(null);
+      })
+      .catch(error => {
+        console.error("Erreur lors de la suppression de la période :", error);
+      });
+  };
+  
 
   const handleEditPeriod = (periodIndex, newName) => {
     const updatedSubjects = [...subjects];
@@ -66,7 +104,7 @@ const AdminSubjects = () => {
       <div className="admin-subjects-content">
         <h1>إدارة المواد والفترات والدروس</h1>
 
-        {/* اختيار الفصل */}
+        {/* Choix de la classe */}
         <div className="section">
           <h2>إدارة الفصول</h2>
           <select
@@ -80,11 +118,10 @@ const AdminSubjects = () => {
           </select>
         </div>
 
-        {/* إدارة المواد */}
+        {/* Gestion des subjects */}
         {selectedClass && (
           <div className="section">
             <h2>إدارة المواد</h2>
-            
             <div className="subjects-list">
               {subjects.map((subject, index) => (
                 <div key={index} className="subject-item">
@@ -98,7 +135,7 @@ const AdminSubjects = () => {
           </div>
         )}
 
-        {/* إدارة الفترات */}
+        {/* Gestion des périodes */}
         {selectedSubjectIndex !== null && (
           <div className="section">
             <h2>إدارة الفترات لمادة {subjects[selectedSubjectIndex].name}</h2>
@@ -108,16 +145,7 @@ const AdminSubjects = () => {
               value={newPeriod}
               onChange={(e) => setNewPeriod(e.target.value)}
             />
-            <button
-              onClick={() => {
-                if (newPeriod.trim() !== '') {
-                  const updatedSubjects = [...subjects];
-                  updatedSubjects[selectedSubjectIndex].periods.push({ name: newPeriod, lessons: [] });
-                  setSubjects(updatedSubjects);
-                  setNewPeriod('');
-                }
-              }}
-            >
+            <button onClick={handleAddPeriod}>
               إضافة الفترة
             </button>
 
@@ -137,7 +165,7 @@ const AdminSubjects = () => {
           </div>
         )}
 
-        {/* إدارة الدروس */}
+        {/* Gestion des leçons */}
         {selectedPeriodIndex !== null && (
           <div className="section">
             <h2>
@@ -173,7 +201,7 @@ const AdminSubjects = () => {
             </button>
 
             <div className="lessons-list">
-              {subjects[selectedSubjectIndex].periods[selectedPeriodIndex].lessons.map((lesson, index) => (
+              {subjects[selectedSubjectIndex].periods[selectedPeriodIndex].lessons?.map((lesson, index) => (
                 <div key={index} className="lesson-item">
                   <input
                     type="text"
