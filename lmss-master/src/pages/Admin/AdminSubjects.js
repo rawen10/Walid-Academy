@@ -1,42 +1,33 @@
-import React, { useState } from 'react';
-import { FileUpload } from 'primereact/fileupload';
+import React, { useState, useEffect } from 'react';
 import './AdminSubjects.css';
 
 const AdminSubjects = () => {
-  const classesOptions = ['الرابعة اساسي', 'الخامسة', 'السادسة'];
+  const classesOptions = ['الرابعة أساسي', 'الخامسة', 'السادسة'];
+  const predefinedSubjects = ['الرياضيات', 'العلوم']; // المواد المحددة مسبقًا
+
   const [selectedClass, setSelectedClass] = useState('');
   const [subjects, setSubjects] = useState([]);
-  const [newSubject, setNewSubject] = useState('');
   const [selectedSubjectIndex, setSelectedSubjectIndex] = useState(null);
   const [newPeriod, setNewPeriod] = useState('');
   const [selectedPeriodIndex, setSelectedPeriodIndex] = useState(null);
   const [newLesson, setNewLesson] = useState({ name: '', videoLink: '', pptLink: '' });
 
-  const handleAddSubject = () => {
+  // عند اختيار الفصل، نقوم بتعيين المواد المحددة مسبقًا لهذا الفصل
+  useEffect(() => {
     if (selectedClass) {
-      setSubjects([...subjects, { className: selectedClass, name: newSubject, periods: [] }]);
-      setNewSubject('');
+      const initialSubjects = predefinedSubjects.map(subject => ({
+        name: subject,
+        periods: []
+      }));
+      setSubjects(initialSubjects);
+      setSelectedSubjectIndex(null);
+      setSelectedPeriodIndex(null);
+    } else {
+      setSubjects([]);
+      setSelectedSubjectIndex(null);
+      setSelectedPeriodIndex(null);
     }
-  };
-
-  const handleDeleteSubject = (index) => {
-    setSubjects(subjects.filter((_, i) => i !== index));
-    setSelectedSubjectIndex(null);
-    setSelectedPeriodIndex(null);
-  };
-
-  const handleEditSubject = (index, newName) => {
-    const updatedSubjects = [...subjects];
-    updatedSubjects[index].name = newName;
-    setSubjects(updatedSubjects);
-  };
-
-  const handleAddPeriod = () => {
-    const updatedSubjects = [...subjects];
-    updatedSubjects[selectedSubjectIndex].periods.push({ name: newPeriod, lessons: [] });
-    setSubjects(updatedSubjects);
-    setNewPeriod('');
-  };
+  }, [selectedClass]);
 
   const handleDeletePeriod = (periodIndex) => {
     const updatedSubjects = [...subjects];
@@ -70,30 +61,12 @@ const AdminSubjects = () => {
     setSubjects(updatedSubjects);
   };
 
-  const handleFileUpload = (event, type) => {
-    console.log(`Uploading ${type}`);
-    customBase64Uploader(event, type);
-  };
-
-  const customBase64Uploader = async (event, type) => {
-    const file = event.files[0];
-    const reader = new FileReader();
-    let blob = await fetch(file.objectURL).then((r) => r.blob());
-
-    reader.readAsDataURL(blob);
-
-    reader.onloadend = function () {
-      const base64data = reader.result;
-      console.log(`${type} uploaded successfully as base64.`);
-    };
-  };
-
   return (
     <div className="admin-subjects-container">
       <div className="admin-subjects-content">
         <h1>إدارة المواد والفترات والدروس</h1>
 
-        {/* Class Selection */}
+        {/* اختيار الفصل */}
         <div className="section">
           <h2>إدارة الفصول</h2>
           <select
@@ -107,49 +80,25 @@ const AdminSubjects = () => {
           </select>
         </div>
 
-        {/* Subject Management */}
+        {/* إدارة المواد */}
         {selectedClass && (
           <div className="section">
             <h2>إدارة المواد</h2>
-            <input
-              type="text"
-              placeholder="اسم المادة"
-              value={newSubject}
-              onChange={(e) => setNewSubject(e.target.value)}
-            />
-            <button onClick={handleAddSubject}>إضافة المادة</button>
-            
-            {/* Upload Image for Subject */}
-            <div className="upload-section">
-              <h3>تحميل صورة المادة</h3>
-              <FileUpload 
-                mode="basic" 
-                name="subject-image" 
-                accept="image/*" 
-                customUpload 
-                uploadHandler={(e) => handleFileUpload(e, 'صورة المادة')} 
-              />
-            </div>
             
             <div className="subjects-list">
-              {subjects
-                .filter(subject => subject.className === selectedClass)
-                .map((subject, index) => (
-                  <div key={index} className="subject-item">
-                    <input
-                      type="text"
-                      value={subject.name}
-                      onChange={(e) => handleEditSubject(index, e.target.value)}
-                    />
-                    <button onClick={() => handleDeleteSubject(index)}>حذف</button>
-                    <button onClick={() => setSelectedSubjectIndex(index)}>اختر</button>
-                  </div>
-                ))}
+              {subjects.map((subject, index) => (
+                <div key={index} className="subject-item">
+                  <h3>{subject.name}</h3>
+                  <button onClick={() => setSelectedSubjectIndex(index)}>
+                    إدارة الفترات
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
         )}
 
-        {/* Period Management */}
+        {/* إدارة الفترات */}
         {selectedSubjectIndex !== null && (
           <div className="section">
             <h2>إدارة الفترات لمادة {subjects[selectedSubjectIndex].name}</h2>
@@ -159,19 +108,18 @@ const AdminSubjects = () => {
               value={newPeriod}
               onChange={(e) => setNewPeriod(e.target.value)}
             />
-            <button onClick={handleAddPeriod}>إضافة الفترة</button>
-
-            {/* Upload Image for Period */}
-            <div className="upload-section">
-              <h3>تحميل صورة الفترة</h3>
-              <FileUpload 
-                mode="basic" 
-                name="period-image" 
-                accept="image/*" 
-                customUpload 
-                uploadHandler={(e) => handleFileUpload(e, 'صورة الفترة')} 
-              />
-            </div>
+            <button
+              onClick={() => {
+                if (newPeriod.trim() !== '') {
+                  const updatedSubjects = [...subjects];
+                  updatedSubjects[selectedSubjectIndex].periods.push({ name: newPeriod, lessons: [] });
+                  setSubjects(updatedSubjects);
+                  setNewPeriod('');
+                }
+              }}
+            >
+              إضافة الفترة
+            </button>
 
             <div className="periods-list">
               {subjects[selectedSubjectIndex].periods.map((period, index) => (
@@ -182,17 +130,19 @@ const AdminSubjects = () => {
                     onChange={(e) => handleEditPeriod(index, e.target.value)}
                   />
                   <button onClick={() => handleDeletePeriod(index)}>حذف</button>
-                  <button onClick={() => setSelectedPeriodIndex(index)}>اختر</button>
+                  <button onClick={() => setSelectedPeriodIndex(index)}>إدارة الدروس</button>
                 </div>
               ))}
             </div>
           </div>
         )}
 
-        {/* Lesson Management */}
+        {/* إدارة الدروس */}
         {selectedPeriodIndex !== null && (
           <div className="section">
-            <h2>إدارة الدروس لفترة {subjects[selectedSubjectIndex].periods[selectedPeriodIndex].name} في مادة {subjects[selectedSubjectIndex].name}</h2>
+            <h2>
+              إدارة الدروس لفترة {subjects[selectedSubjectIndex].periods[selectedPeriodIndex].name} في مادة {subjects[selectedSubjectIndex].name}
+            </h2>
 
             <input
               type="text"
@@ -200,45 +150,28 @@ const AdminSubjects = () => {
               value={newLesson.name}
               onChange={(e) => setNewLesson({ ...newLesson, name: e.target.value })}
             />
+            <input
+              type="text"
+              placeholder="رابط فيديو الدرس (Google Drive)"
+              value={newLesson.videoLink}
+              onChange={(e) => setNewLesson({ ...newLesson, videoLink: e.target.value })}
+            />
+            <input
+              type="text"
+              placeholder="رابط PowerPoint الدرس (Google Drive)"
+              value={newLesson.pptLink}
+              onChange={(e) => setNewLesson({ ...newLesson, pptLink: e.target.value })}
+            />
+            <button
+              onClick={() => {
+                if (newLesson.name.trim() !== '') {
+                  handleAddLesson();
+                }
+              }}
+            >
+              إضافة الدرس
+            </button>
 
-            {/* Upload Image for Lesson */}
-            <div className="upload-section">
-              <h3>تحميل صورة الدرس</h3>
-              <FileUpload 
-                mode="basic" 
-                name="lesson-image" 
-                accept="image/*" 
-                customUpload 
-                uploadHandler={(e) => handleFileUpload(e, 'صورة الدرس')} 
-              />
-            </div>
-
-            {/* Upload Video for Lesson */}
-            <div className="upload-section">
-              <h3>تحميل فيديو الدرس</h3>
-              <FileUpload 
-                mode="basic" 
-                name="lesson-video" 
-                accept="video/*" 
-                customUpload 
-                uploadHandler={(e) => handleFileUpload(e, 'فيديو الدرس')} 
-              />
-            </div>
-
-            {/* Upload PowerPoint for Lesson */}
-            <div className="upload-section">
-              <h3>تحميل عرض PowerPoint للدرس</h3>
-              <FileUpload 
-                mode="basic" 
-                name="lesson-ppt" 
-                accept=".ppt,.pptx" 
-                customUpload 
-                uploadHandler={(e) => handleFileUpload(e, 'عرض PowerPoint')} 
-              />
-            </div>
-
-            <button onClick={handleAddLesson}>إضافة الدرس</button>
-            
             <div className="lessons-list">
               {subjects[selectedSubjectIndex].periods[selectedPeriodIndex].lessons.map((lesson, index) => (
                 <div key={index} className="lesson-item">
@@ -246,6 +179,19 @@ const AdminSubjects = () => {
                     type="text"
                     value={lesson.name}
                     onChange={(e) => handleEditLesson(index, { ...lesson, name: e.target.value })}
+                    placeholder="اسم الدرس"
+                  />
+                  <input
+                    type="text"
+                    value={lesson.videoLink}
+                    onChange={(e) => handleEditLesson(index, { ...lesson, videoLink: e.target.value })}
+                    placeholder="رابط فيديو الدرس (Google Drive)"
+                  />
+                  <input
+                    type="text"
+                    value={lesson.pptLink}
+                    onChange={(e) => handleEditLesson(index, { ...lesson, pptLink: e.target.value })}
+                    placeholder="رابط PowerPoint الدرس (Google Drive)"
                   />
                   <button onClick={() => handleDeleteLesson(index)}>حذف</button>
                 </div>
