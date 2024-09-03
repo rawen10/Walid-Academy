@@ -1,41 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './AdminSubjects.css';
 
 const AdminSubjects = () => {
-  const classesOptions = ['الرابعة اساسي', 'الخامسة', 'السادسة'];
+  const classesOptions = ['الرابعة أساسي', 'الخامسة', 'السادسة'];
+  const predefinedSubjects = ['الرياضيات', 'العلوم']; // المواد المحددة مسبقًا
+
   const [selectedClass, setSelectedClass] = useState('');
   const [subjects, setSubjects] = useState([]);
-  const [newSubject, setNewSubject] = useState('');
   const [selectedSubjectIndex, setSelectedSubjectIndex] = useState(null);
   const [newPeriod, setNewPeriod] = useState('');
   const [selectedPeriodIndex, setSelectedPeriodIndex] = useState(null);
   const [newLesson, setNewLesson] = useState({ name: '', videoLink: '', pptLink: '' });
 
-  const handleAddSubject = () => {
+  // عند اختيار الفصل، نقوم بتعيين المواد المحددة مسبقًا لهذا الفصل
+  useEffect(() => {
     if (selectedClass) {
-      setSubjects([...subjects, { className: selectedClass, name: newSubject, periods: [] }]);
-      setNewSubject('');
+      const initialSubjects = predefinedSubjects.map(subject => ({
+        name: subject,
+        periods: []
+      }));
+      setSubjects(initialSubjects);
+      setSelectedSubjectIndex(null);
+      setSelectedPeriodIndex(null);
+    } else {
+      setSubjects([]);
+      setSelectedSubjectIndex(null);
+      setSelectedPeriodIndex(null);
     }
-  };
-
-  const handleDeleteSubject = (index) => {
-    setSubjects(subjects.filter((_, i) => i !== index));
-    setSelectedSubjectIndex(null);
-    setSelectedPeriodIndex(null);
-  };
-
-  const handleEditSubject = (index, newName) => {
-    const updatedSubjects = [...subjects];
-    updatedSubjects[index].name = newName;
-    setSubjects(updatedSubjects);
-  };
-
-  const handleAddPeriod = () => {
-    const updatedSubjects = [...subjects];
-    updatedSubjects[selectedSubjectIndex].periods.push({ name: newPeriod, lessons: [] });
-    setSubjects(updatedSubjects);
-    setNewPeriod('');
-  };
+  }, [selectedClass]);
 
   const handleDeletePeriod = (periodIndex) => {
     const updatedSubjects = [...subjects];
@@ -74,7 +66,7 @@ const AdminSubjects = () => {
       <div className="admin-subjects-content">
         <h1>إدارة المواد والفترات والدروس</h1>
 
-        {/* Class Selection */}
+        {/* اختيار الفصل */}
         <div className="section">
           <h2>إدارة الفصول</h2>
           <select
@@ -88,37 +80,25 @@ const AdminSubjects = () => {
           </select>
         </div>
 
-        {/* Subject Management */}
+        {/* إدارة المواد */}
         {selectedClass && (
           <div className="section">
             <h2>إدارة المواد</h2>
-            <input
-              type="text"
-              placeholder="اسم المادة"
-              value={newSubject}
-              onChange={(e) => setNewSubject(e.target.value)}
-            />
-            <button onClick={handleAddSubject}>إضافة المادة</button>
             
             <div className="subjects-list">
-              {subjects
-                .filter(subject => subject.className === selectedClass)
-                .map((subject, index) => (
-                  <div key={index} className="subject-item">
-                    <input
-                      type="text"
-                      value={subject.name}
-                      onChange={(e) => handleEditSubject(index, e.target.value)}
-                    />
-                    <button onClick={() => handleDeleteSubject(index)}>حذف</button>
-                    <button onClick={() => setSelectedSubjectIndex(index)}>اختر</button>
-                  </div>
-                ))}
+              {subjects.map((subject, index) => (
+                <div key={index} className="subject-item">
+                  <h3>{subject.name}</h3>
+                  <button onClick={() => setSelectedSubjectIndex(index)}>
+                    إدارة الفترات
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
         )}
 
-        {/* Period Management */}
+        {/* إدارة الفترات */}
         {selectedSubjectIndex !== null && (
           <div className="section">
             <h2>إدارة الفترات لمادة {subjects[selectedSubjectIndex].name}</h2>
@@ -128,7 +108,18 @@ const AdminSubjects = () => {
               value={newPeriod}
               onChange={(e) => setNewPeriod(e.target.value)}
             />
-            <button onClick={handleAddPeriod}>إضافة الفترة</button>
+            <button
+              onClick={() => {
+                if (newPeriod.trim() !== '') {
+                  const updatedSubjects = [...subjects];
+                  updatedSubjects[selectedSubjectIndex].periods.push({ name: newPeriod, lessons: [] });
+                  setSubjects(updatedSubjects);
+                  setNewPeriod('');
+                }
+              }}
+            >
+              إضافة الفترة
+            </button>
 
             <div className="periods-list">
               {subjects[selectedSubjectIndex].periods.map((period, index) => (
@@ -139,17 +130,19 @@ const AdminSubjects = () => {
                     onChange={(e) => handleEditPeriod(index, e.target.value)}
                   />
                   <button onClick={() => handleDeletePeriod(index)}>حذف</button>
-                  <button onClick={() => setSelectedPeriodIndex(index)}>اختر</button>
+                  <button onClick={() => setSelectedPeriodIndex(index)}>إدارة الدروس</button>
                 </div>
               ))}
             </div>
           </div>
         )}
 
-        {/* Lesson Management */}
+        {/* إدارة الدروس */}
         {selectedPeriodIndex !== null && (
           <div className="section">
-            <h2>إدارة الدروس لفترة {subjects[selectedSubjectIndex].periods[selectedPeriodIndex].name} في مادة {subjects[selectedSubjectIndex].name}</h2>
+            <h2>
+              إدارة الدروس لفترة {subjects[selectedSubjectIndex].periods[selectedPeriodIndex].name} في مادة {subjects[selectedSubjectIndex].name}
+            </h2>
 
             <input
               type="text"
@@ -169,8 +162,16 @@ const AdminSubjects = () => {
               value={newLesson.pptLink}
               onChange={(e) => setNewLesson({ ...newLesson, pptLink: e.target.value })}
             />
-            <button onClick={handleAddLesson}>إضافة الدرس</button>
-            
+            <button
+              onClick={() => {
+                if (newLesson.name.trim() !== '') {
+                  handleAddLesson();
+                }
+              }}
+            >
+              إضافة الدرس
+            </button>
+
             <div className="lessons-list">
               {subjects[selectedSubjectIndex].periods[selectedPeriodIndex].lessons.map((lesson, index) => (
                 <div key={index} className="lesson-item">
@@ -178,6 +179,7 @@ const AdminSubjects = () => {
                     type="text"
                     value={lesson.name}
                     onChange={(e) => handleEditLesson(index, { ...lesson, name: e.target.value })}
+                    placeholder="اسم الدرس"
                   />
                   <input
                     type="text"
