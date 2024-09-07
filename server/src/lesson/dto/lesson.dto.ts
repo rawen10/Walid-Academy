@@ -4,7 +4,9 @@ export class CreateLessonDto {
     @ApiProperty()
     title: string;
     @ApiProperty()
-    content: string;
+    urlVideo: string;
+    @ApiProperty()
+    urlPowerPoint: string;
     @ApiProperty()
     periodId: number;
   }
@@ -13,7 +15,9 @@ export class CreateLessonDto {
     @ApiProperty()
     title?: string;
     @ApiProperty()
-    content?: string;
+    urlVideo: string;
+    @ApiProperty()
+    urlPowerPoint: string;
     @ApiProperty()
     periodId?: number;
   }

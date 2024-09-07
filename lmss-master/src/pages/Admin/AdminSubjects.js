@@ -123,7 +123,7 @@ const AdminSubjects = () => {
           <div className="section">
             <h2>إدارة المواد</h2>
             <div className="subjects-list">
-              {subjects.map((subject, index) => (
+              {subjects?.map((subject, index) => (
                 <div key={index} className="subject-item">
                   <h3>{subject.name}</h3>
                   <button onClick={() => setSelectedSubjectIndex(index)}>
@@ -150,7 +150,7 @@ const AdminSubjects = () => {
             </button>
 
             <div className="periods-list">
-              {subjects[selectedSubjectIndex].periods.map((period, index) => (
+              {subjects[selectedSubjectIndex].periods?.map((period, index) => (
                 <div key={index} className="period-item">
                   <input
                     type="text"

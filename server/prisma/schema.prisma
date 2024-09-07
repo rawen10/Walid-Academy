@@ -50,7 +50,9 @@ model Period {
 model Lesson {
   id        Int       @id @default(autoincrement())
   title     String
-  content   String
+  urlVideo   String
+  urlPowerPonit   String
+
   period    Period    @relation(fields: [periodId], references: [id], onDelete: Cascade)
   periodId  Int
 }

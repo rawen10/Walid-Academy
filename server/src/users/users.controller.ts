@@ -11,7 +11,7 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUsersDto } from './dto/create-user.dto';
+import { CreateUsersDto, UpdateAccessDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -60,5 +60,13 @@ export class UsersController {
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
+  }
+
+  @ApiSecurity('apiKey') //logo cadna
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('Admin')
+  @Patch(':id/access')
+  async updateAccess(@Param('id') id: string, @Body() updateAccessDto: UpdateAccessDto) {
+    return this.usersService.updateAccess(+id, updateAccessDto.access);
   }
 }
