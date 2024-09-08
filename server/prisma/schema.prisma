@@ -42,6 +42,7 @@ model Subject {
 model Period {
   id        Int       @id @default(autoincrement())
   name      String
+  urlPic  String
   subject   Subject   @relation(fields: [subjectId], references: [id], onDelete: Cascade) 
   subjectId Int       
   lessons   Lesson[]
@@ -50,9 +51,10 @@ model Period {
 model Lesson {
   id        Int       @id @default(autoincrement())
   title     String
+  urlPic  String
   urlVideo   String
   urlPowerPonit   String
 
   period    Period    @relation(fields: [periodId], references: [id], onDelete: Cascade)
   periodId  Int
-gir}
+}
