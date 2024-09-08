@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { LessonService } from './lesson.service';
 import { Prisma } from '@prisma/client';
 import { ApiTags } from '@nestjs/swagger';
+import { CreateLessonDto } from './dto/lesson.dto';
 
 @Controller('lessons')
 @ApiTags('lesson')
@@ -9,7 +10,7 @@ export class LessonController {
   constructor(private readonly lessonService: LessonService) {}
 
   @Post()
-  create(@Body() createLessonDto: Prisma.LessonCreateInput) {
+  create(@Body() createLessonDto: CreateLessonDto) {
     return this.lessonService.createLesson(createLessonDto);
   }
 

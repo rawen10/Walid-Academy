@@ -23,3 +23,8 @@ export class CreateUsersDto {
   @ApiProperty()
   naissance: string;
 }
+
+export class UpdateAccessDto {
+  @ApiProperty()
+  access: boolean;
+}

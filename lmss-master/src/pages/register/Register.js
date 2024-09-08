@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./Register.css";
 import Header from "../../component/NavBar/header";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const RegistrationForm = () => {
   const [form, setForm] = useState({
@@ -51,10 +53,12 @@ const RegistrationForm = () => {
       console.log("Response received", response);
       if (response.status === 201) {
         console.log("Utilisateur créé avec succès");
+        toast.success("Signup successful!");
+
       }
     } catch (error) {
-      console.error("Erreur lors de la création de l’utilisateur:", error);
-      setError("Une erreur est survenue. Veuillez réessayer plus tard.");
+      const errorMessage = error.response?.data?.message || "Signup failed";
+      toast.error(errorMessage);   
     }
   };
 
@@ -209,9 +213,20 @@ const RegistrationForm = () => {
           <input type="submit" value="إنشاء حساب جديد" onClick={handleSubmit} style={{backgroundColor:"#28a645", color:"white" ,fontSize:17}}/>
         </div>
         <p>
-          هل لديك حساب؟ <a href="#">تسجيل الدخول</a>
+          هل لديك حساب؟ <a href="login">تسجيل الدخول</a>
         </p>
       </form>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };

@@ -1,15 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Prisma } from '@prisma/client';
+import { CreateLessonDto } from './dto/lesson.dto';
 
 @Injectable()
 export class LessonService {
   constructor(private prisma: PrismaService) {}
 
-  async createLesson(data: Prisma.LessonCreateInput) {
-    return this.prisma.lesson.create({
-      data,
-    });
+  async createLesson(dto: CreateLessonDto) {
+    
   }
 
   async findAllLessons() {

@@ -3,6 +3,8 @@ import "./Login.css";
 import Header from "../../component/NavBar/header";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LoginForm = () => {
   const [form, setForm] = useState({
@@ -40,8 +42,8 @@ const LoginForm = () => {
     } catch (error) {
       const errorMessage =
         error.response?.data?.message || "Login failed. Please try again.";
-      console.error(errorMessage);
-    }
+        toast.error(errorMessage);
+      }
   };
 
   return (
@@ -91,6 +93,17 @@ const LoginForm = () => {
           <p style={{ color: "green", marginTop: "10px" }}>{successMessage}</p>
         )}
       </form>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
