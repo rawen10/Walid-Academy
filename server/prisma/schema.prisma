@@ -68,4 +68,4 @@ model Lesson {
   content   String
   period    Period    @relation(fields: [periodId], references: [id], onDelete: Cascade)
   periodId  Int
-}
+gir}
