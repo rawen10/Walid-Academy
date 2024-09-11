@@ -1,6 +1,5 @@
 import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { LessonService } from './lesson.service';
-import { Prisma } from '@prisma/client';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateLessonDto } from './dto/lesson.dto';
 

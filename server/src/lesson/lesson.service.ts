@@ -6,8 +6,20 @@ import { CreateLessonDto } from './dto/lesson.dto';
 export class LessonService {
   constructor(private prisma: PrismaService) {}
 
-  async createLesson(dto: CreateLessonDto) {
-    
+  async createLesson(data: CreateLessonDto) {
+    const { title, urlVideo, urlPic, urlPowerPonit, periodId } = data;
+
+    return this.prisma.lesson.create({
+      data: {
+        title,
+        urlVideo,
+        urlPic,
+        urlPowerPonit,
+        period: {
+          connect: { id: periodId }, // Connect the Lesson to the Period by periodId
+        },
+      },
+    });
   }
 
   async findAllLessons() {

@@ -6,19 +6,24 @@ export class CreateLessonDto {
     @ApiProperty()
     urlVideo: string;
     @ApiProperty()
-    urlPowerPoint: string;
+    urlPic: string;
+    @ApiProperty()
+    urlPowerPonit?: string;
     @ApiProperty()
     periodId: number;
+    
   }
   
   export class UpdateLessonDto {
     @ApiProperty()
-    title?: string;
+    title: string;
     @ApiProperty()
     urlVideo: string;
     @ApiProperty()
     urlPowerPoint: string;
     @ApiProperty()
-    periodId?: number;
+    urlPic: string;
+    @ApiProperty()
+    periodId: number;
   }
   

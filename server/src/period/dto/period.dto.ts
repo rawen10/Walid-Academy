@@ -4,6 +4,8 @@ export class CreatePeriodDto {
     @ApiProperty()
     name: string;
     @ApiProperty()
+    urlPic: string;
+    @ApiProperty()
     subjectId: number;
   }
   
@@ -12,5 +14,7 @@ export class CreatePeriodDto {
     name?: string;
     @ApiProperty()
     subjectId?: number;
+    @ApiProperty()
+    urlPic: string;
   }
   
