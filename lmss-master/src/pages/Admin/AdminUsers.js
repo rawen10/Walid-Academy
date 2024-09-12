@@ -10,7 +10,7 @@ const AdminUsers = () => {
   // Fetch users from the backend
   const fetchUsers = async () => {
     try {
-      const token = localStorage.getItem('token'); // Retrieve token as plain string
+      const token = JSON.parse(localStorage.getItem("token")); // converiw la chaine de caractere en un objet 
       const response = await axios.get('http://localhost:5000/users/AllUsers', {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -26,16 +26,19 @@ const AdminUsers = () => {
   }, []);
 
   // Handle toggling access for a user
-  const handleToggleAccess = async (userId, currentStatus) => {
+  const handleToggleAccess = async (userId, currentAccess) => {
     try {
-      const token = localStorage.getItem('token');
-      await axios.patch(`http://localhost:5000/users/${userId}/access`, 
-        { access: !currentStatus }, 
+      const token = JSON.parse(localStorage.getItem('token'));
+      const newAccess = !currentAccess; // Toggle the access state
+      await axios.patch(
+        `http://localhost:5000/users/${userId}/access`, 
+        { access: newAccess }, 
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      // Update the local state after successful update
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
-          user.id === userId ? { ...user, hasAccess: !currentStatus } : user
+          user.id === userId ? { ...user, access: newAccess } : user
         )
       );
     } catch (error) {
@@ -47,7 +50,7 @@ const AdminUsers = () => {
   // Handle deleting a user
   const handleDeleteUser = async (userId) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = JSON.parse(localStorage.getItem('token'));
       await axios.delete(`http://localhost:5000/users/${userId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -76,18 +79,18 @@ const AdminUsers = () => {
         <tbody>
           {users.map((user) => (
             <tr key={user.id}>
-              <td>{user.surname}</td>
-              <td>{user.name}</td>
-              <td>{user.phone}</td>
-              <td>{user.grade}</td>
-              <td>{user.hasAccess ? 'نعم' : 'لا'}</td>
+              <td>{user.nom}</td>
+              <td>{user.prenom}</td>
+              <td>{user.telephone}</td>
+              <td>{user.classe}</td>
+              <td>{user.access ? 'نعم' : 'لا'}</td>
               <td>
                 <button
-                  className={`access-button ${user.hasAccess ? 'revoke' : 'grant'}`}
-                  onClick={() => handleToggleAccess(user.id, user.hasAccess)}
+                  className={`access-button ${user.access ? 'revoke' : 'grant'}`}
+                  onClick={() => handleToggleAccess(user.id, user.access)}
                 >
-                  {user.hasAccess ? <FiXCircle /> : <FiCheckCircle />}
-                  {user.hasAccess ? 'إلغاء الوصول' : 'منح الوصول'}
+                  {user.access ? <FiXCircle /> : <FiCheckCircle />}
+                  {user.access ? 'إلغاء الوصول' : 'منح الوصول'}
                 </button>
                 <button
                   className="delete-button"

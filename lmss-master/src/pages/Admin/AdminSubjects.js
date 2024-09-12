@@ -234,7 +234,7 @@ const AdminSubjects = () => {
             <button onClick={handleAddLesson}>إضافة الدرس</button>
 
             <div className="lessons-list">
-              {subjects[selectedSubjectIndex].periods[selectedPeriodIndex].lessons.map((lesson, index) => (
+              {subjects[selectedSubjectIndex].periods[selectedPeriodIndex].lessons?.map((lesson, index) => (
                 <div key={index} className="lesson-item">
                   <input
                     type="text"
