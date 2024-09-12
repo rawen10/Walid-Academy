@@ -41,22 +41,22 @@ const AdminSubjects = () => {
     if (newPeriod.name.trim() !== '') {
       const selectedSubject = subjects[selectedSubjectIndex];
       axios
-        .post('http://localhost:5000/period', {
+        .post("http://localhost:5000/periods", {
           name: newPeriod.name,
           urlPic: newPeriod.urlPic,
           subjectId: selectedSubject.id,
         })
         .then(response => {
           const updatedSubjects = [...subjects];
-          updatedSubjects[selectedSubjectIndex].periods.push(response.data); // Update periods with the new period from the response
+          updatedSubjects[selectedSubjectIndex].periods.push(response.data);
           setSubjects(updatedSubjects);
           setNewPeriod({ name: '', urlPic: '' });
         })
         .catch(error => {
-          console.error('Error adding period:', error);
+          console.error("Error adding period:", error);
         });
     } else {
-      alert('Please fill out the period name.');
+      alert("Please fill out the period name.");
     }
   };
 
@@ -66,7 +66,7 @@ const AdminSubjects = () => {
     const periodToDelete = selectedSubject.periods[periodIndex];
 
     axios
-      .delete(`http://localhost:5000/period/${periodToDelete.id}`)
+      .delete(`http://localhost:5000/periods/${periodToDelete.id}`)
       .then(() => {
         const updatedSubjects = [...subjects];
         updatedSubjects[selectedSubjectIndex].periods.splice(periodIndex, 1);
@@ -74,7 +74,7 @@ const AdminSubjects = () => {
         setSelectedPeriodIndex(null);
       })
       .catch(error => {
-        console.error('Error deleting period:', error);
+        console.error("Error deleting period:", error);
       });
   };
 

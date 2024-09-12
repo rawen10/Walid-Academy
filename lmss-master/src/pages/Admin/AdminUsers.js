@@ -1,72 +1,105 @@
 import React, { useEffect, useState } from 'react';
-import { FiCheckCircle, FiXCircle } from 'react-icons/fi';
-
+import axios from 'axios';
+import { FiCheckCircle, FiXCircle, FiTrash } from 'react-icons/fi';
 import './AdminUsers.css';
 
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);
+  const [error, setError] = useState(null);
+
+  // Fetch users from the backend
+  const fetchUsers = async () => {
+    try {
+      const token = localStorage.getItem('token'); // Retrieve token as plain string
+      const response = await axios.get('http://localhost:5000/users/AllUsers', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setUsers(response.data);
+    } catch (error) {
+      setError('Failed to fetch users. Make sure you are authorized.');
+      console.error('Error fetching users:', error);
+    }
+  };
 
   useEffect(() => {
-    // Example users data
-    const exampleUsers = [
-      { id: 1, surname: 'Doe', name: 'John', phone: '1234567890', grade: 'الأولى 1 ابتدائي', hasAccess: false },
-      { id: 2, surname: 'Smith', name: 'Jane', phone: '0987654321', grade: 'الثانية 2 ابتدائي', hasAccess: true },
-      { id: 3, surname: 'Ali', name: 'Ahmed', phone: '111222333', grade: 'الثالثة 3 ابتدائي', hasAccess: false },
-      { id: 4, surname: 'Ben Salah', name: 'Amira', phone: '444555666', grade: 'الرابعة 4 ابتدائي', hasAccess: true },
-      { id: 5, surname: 'Khelifa', name: 'Nour', phone: '777888999', grade: 'الخامسة 5 ابتدائي', hasAccess: true },
-      { id: 6, surname: 'Mansour', name: 'Rami', phone: '000111222', grade: 'السادسة 6 ابتدائي', hasAccess: false }
-    ];
-
-    setUsers(exampleUsers);
+    fetchUsers();
   }, []);
 
+  // Handle toggling access for a user
   const handleToggleAccess = async (userId, currentStatus) => {
-    // Simulating backend update by directly updating state
-    setUsers((prevUsers) =>
-      prevUsers.map((user) =>
-        user.id === userId ? { ...user, hasAccess: !currentStatus } : user
-      )
-    );
+    try {
+      const token = localStorage.getItem('token');
+      await axios.patch(`http://localhost:5000/users/${userId}/access`, 
+        { access: !currentStatus }, 
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user.id === userId ? { ...user, hasAccess: !currentStatus } : user
+        )
+      );
+    } catch (error) {
+      setError('Failed to update access.');
+      console.error('Error updating access:', error);
+    }
+  };
+
+  // Handle deleting a user
+  const handleDeleteUser = async (userId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete(`http://localhost:5000/users/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+    } catch (error) {
+      setError('Failed to delete user.');
+      console.error('Error deleting user:', error);
+    }
   };
 
   return (
-    <div>
-     
-      <div className="admin-users-container">
-        <h1>إدارة المستخدمين</h1>
-        <table className="users-table">
-          <thead>
-            <tr>
-              <th>اللقب</th>
-              <th>الإسم</th>
-              <th>رقم الهاتف</th>
-              <th>القسم</th>
-              <th>الوصول للفيديوهات</th>
-              <th>إجراءات</th>
+    <div className="admin-users-container">
+      <h1>إدارة المستخدمين</h1>
+      {error && <p className="error-message">{error}</p>}
+      <table className="users-table">
+        <thead>
+          <tr>
+            <th>اللقب</th>
+            <th>الإسم</th>
+            <th>رقم الهاتف</th>
+            <th>القسم</th>
+            <th>الوصول للفيديوهات</th>
+            <th>إجراءات</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user) => (
+            <tr key={user.id}>
+              <td>{user.surname}</td>
+              <td>{user.name}</td>
+              <td>{user.phone}</td>
+              <td>{user.grade}</td>
+              <td>{user.hasAccess ? 'نعم' : 'لا'}</td>
+              <td>
+                <button
+                  className={`access-button ${user.hasAccess ? 'revoke' : 'grant'}`}
+                  onClick={() => handleToggleAccess(user.id, user.hasAccess)}
+                >
+                  {user.hasAccess ? <FiXCircle /> : <FiCheckCircle />}
+                  {user.hasAccess ? 'إلغاء الوصول' : 'منح الوصول'}
+                </button>
+                <button
+                  className="delete-button"
+                  onClick={() => handleDeleteUser(user.id)}
+                >
+                  <FiTrash /> حذف
+                </button>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.id}>
-                <td>{user.surname}</td>
-                <td>{user.name}</td>
-                <td>{user.phone}</td>
-                <td>{user.grade}</td>
-                <td>{user.hasAccess ? 'نعم' : 'لا'}</td>
-                <td>
-                  <button
-                    className={`access-button ${user.hasAccess ? 'revoke' : 'grant'}`}
-                    onClick={() => handleToggleAccess(user.id, user.hasAccess)}
-                  >
-                    {user.hasAccess ? <FiXCircle /> : <FiCheckCircle />}
-                    {user.hasAccess ? 'إلغاء الوصول' : 'منح الوصول'}
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

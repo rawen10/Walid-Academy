@@ -4,19 +4,19 @@ import './AdminSubjects.css';
 
 const AdminSubjects = () => {
   const classesOptions = ['السادسة']; // Predefined class
-
+  
   const [selectedClass, setSelectedClass] = useState('');
   const [subjects, setSubjects] = useState([]);
   const [selectedSubjectIndex, setSelectedSubjectIndex] = useState(null);
   const [newPeriod, setNewPeriod] = useState({ name: '', urlPic: '' });
   const [selectedPeriodIndex, setSelectedPeriodIndex] = useState(null);
-  const [newLesson, setNewLesson] = useState({ name: '', videoLink: '', urlPowerPonit: '', urlPic: '' });
+  const [newLesson, setNewLesson] = useState({ name: '', videoLink: '', urlPowerPoint: '', urlPic: '' });
 
   // Fetch subjects when a class is selected
   useEffect(() => {
     if (selectedClass) {
       axios
-        .get("http://localhost:5000/subjects")
+        .get('http://localhost:5000/subjects')
         .then(response => {
           const initialSubjects = response.data.map(subject => ({
             ...subject,
@@ -27,7 +27,7 @@ const AdminSubjects = () => {
           setSelectedPeriodIndex(null);
         })
         .catch(error => {
-          console.error("Error fetching subjects:", error);
+          console.error('Error fetching subjects:', error);
         });
     } else {
       setSubjects([]);
@@ -48,7 +48,7 @@ const AdminSubjects = () => {
         })
         .then(response => {
           const updatedSubjects = [...subjects];
-          updatedSubjects[selectedSubjectIndex].periods.push(response.data); // Update periods with the new period from the response
+          updatedSubjects[selectedSubjectIndex].periods.push(response.data);
           setSubjects(updatedSubjects);
           setNewPeriod({ name: '', urlPic: '' });
         })
@@ -86,7 +86,7 @@ const AdminSubjects = () => {
         .post("http://localhost:5000/lessons", {
           title: newLesson.name,
           urlVideo: newLesson.videoLink,
-          urlPowerPonit: newLesson.urlPowerPonit,
+          urlPowerPoint: newLesson.urlPowerPoint,
           urlPic: newLesson.urlPic,
           periodId: selectedPeriod.id,
         })
@@ -94,7 +94,7 @@ const AdminSubjects = () => {
           const updatedSubjects = [...subjects];
           updatedSubjects[selectedSubjectIndex].periods[selectedPeriodIndex].lessons.push(response.data);
           setSubjects(updatedSubjects);
-          setNewLesson({ name: '', videoLink: '', urlPowerPonit: '', urlPic: '' });
+          setNewLesson({ name: '', videoLink: '', urlPowerPoint: '', urlPic: '' });
         })
         .catch(error => {
           console.error("Error adding lesson:", error);
@@ -194,7 +194,17 @@ const AdminSubjects = () => {
             <div className="periods-list">
               {subjects[selectedSubjectIndex].periods.map((period, index) => (
                 <div key={index} className="period-item">
-                  <h3>{period.name}</h3>
+                  <input
+                    type="text"
+                    value={period.name}
+                    onChange={e => handleEditLesson(index, { ...period, name: e.target.value })}
+                  />
+                  <input
+                    type="text"
+                    value={period.urlPic}
+                    placeholder="رابط صورة الفترة"
+                    onChange={e => handleEditLesson(index, { ...period, urlPic: e.target.value })}
+                  />
                   <button onClick={() => handleDeletePeriod(index)}>حذف</button>
                   <button onClick={() => setSelectedPeriodIndex(index)}>إدارة الدروس</button>
                 </div>
@@ -206,7 +216,10 @@ const AdminSubjects = () => {
         {/* Lesson management */}
         {selectedPeriodIndex !== null && (
           <div className="section">
-            <h2>إدارة الدروس لفترة {subjects[selectedSubjectIndex].periods[selectedPeriodIndex].name} في مادة {subjects[selectedSubjectIndex].name}</h2>
+            <h2>
+              إدارة الدروس لفترة {subjects[selectedSubjectIndex].periods[selectedPeriodIndex].name} في مادة{' '}
+              {subjects[selectedSubjectIndex].name}
+            </h2>
             <input
               type="text"
               placeholder="اسم الدرس"
@@ -222,8 +235,8 @@ const AdminSubjects = () => {
             <input
               type="text"
               placeholder="رابط PowerPoint الدرس (Google Drive)"
-              value={newLesson.urlPowerPonit}
-              onChange={e => setNewLesson({ ...newLesson, urlPowerPonit: e.target.value })}
+              value={newLesson.urlPowerPoint}
+              onChange={e => setNewLesson({ ...newLesson, urlPowerPoint: e.target.value })}
             />
             <input
               type="text"
@@ -236,26 +249,8 @@ const AdminSubjects = () => {
             <div className="lessons-list">
               {subjects[selectedSubjectIndex].periods[selectedPeriodIndex].lessons.map((lesson, index) => (
                 <div key={index} className="lesson-item">
-                  <input
-                    type="text"
-                    value={lesson.title}
-                    onChange={e => handleEditLesson(index, { ...lesson, title: e.target.value })}
-                  />
-                  <input
-                    type="text"
-                    value={lesson.urlVideo}
-                    onChange={e => handleEditLesson(index, { ...lesson, urlVideo: e.target.value })}
-                  />
-                  <input
-                    type="text"
-                    value={lesson.urlPowerPonit}
-                    onChange={e => handleEditLesson(index, { ...lesson, urlPowerPonit: e.target.value })}
-                  />
-                  <input
-                    type="text"
-                    value={lesson.urlPic}
-                    onChange={e => handleEditLesson(index, { ...lesson, urlPic: e.target.value })}
-                  />
+                  <h4>{lesson.title}</h4>
+                  <button onClick={() => handleEditLesson(index, { title: 'Updated Title' })}>تعديل</button>
                   <button onClick={() => handleDeleteLesson(index)}>حذف</button>
                 </div>
               ))}
