@@ -42,11 +42,7 @@ model Subject {
 model Period {
   id        Int       @id @default(autoincrement())
   name      String
-<<<<<<< HEAD
   urlPic    String
-=======
-  urlPic  String
->>>>>>> 3c3d905e951c0eecbc86a833ae61ba9e3ea1e080
   subject   Subject   @relation(fields: [subjectId], references: [id], onDelete: Cascade) 
   subjectId Int       
   lessons   Lesson[]
@@ -55,11 +51,7 @@ model Period {
 model Lesson {
   id        Int       @id @default(autoincrement())
   title     String
-<<<<<<< HEAD
   urlPic    String
-=======
-  urlPic  String
->>>>>>> 3c3d905e951c0eecbc86a833ae61ba9e3ea1e080
   urlVideo   String
   urlPowerPonit   String
 
