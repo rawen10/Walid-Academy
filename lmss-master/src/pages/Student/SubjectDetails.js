@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom'; // Import useLocation to get state data
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
-import mathImage from '../../assets/math.jpg';
-import scienceImage from '../../assets/science.png';
 import './SubjectDetails.css';
 
 const SubjectDetails = () => {
@@ -13,6 +11,15 @@ const SubjectDetails = () => {
   const [periods, setPeriods] = useState([]); // State to store periods
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
+
+  // Helper function to convert Google Drive link to direct thumbnail link
+  const getGoogleDriveImageLink = (urlPic) => {
+    const fileIdMatch = urlPic.match(/\/file\/d\/([a-zA-Z0-9_-]+)/); // Extract the file ID from the URL
+    if (fileIdMatch && fileIdMatch[1]) {
+      return `https://drive.google.com/thumbnail?id=${fileIdMatch[1]}&sz=w1000`; // Convert to a direct thumbnail link
+    }
+    return urlPic; // If not a Google Drive link, return the original URL
+  };
 
   // Fetch periods from the backend
   useEffect(() => {
@@ -32,8 +39,8 @@ const SubjectDetails = () => {
   }, [subjectId]);
 
   // Handle period click to navigate to the period details page
-  const handlePeriodClick = (periodName) => {
-    navigate(`/subject/${subjectId}/period/${periodName}`);
+  const handlePeriodClick = (periodId) => {
+    navigate(`/subject/${subjectId}/period/${periodId}`);
   };
 
   if (loading) {
@@ -49,12 +56,21 @@ const SubjectDetails = () => {
       <div className="subject-details">
         <h1>{state?.subjectName || 'Subject Details'}</h1> {/* Display subject name from state */}
         <div className="periods">
-          {periods.map((period, index) => (
-            <div key={index} className="period-card" onClick={() => handlePeriodClick(period.name)}>
-              <img src={subjectId === '1' ? mathImage : scienceImage} alt={`${period.name}`} />
-              <h2>{period.name}</h2>
-            </div>
-          ))}
+          {periods.map((period, index) => {
+            const directImageUrl = getGoogleDriveImageLink(period.urlPic);
+            // Log the name and URL of each period in the console
+            console.log(`Period Name: ${period.name}, URL: ${period.urlPic}`);
+
+            return (
+              <div key={index} className="period-card" onClick={() => handlePeriodClick(period.name)}>
+                <img 
+                  src={directImageUrl} 
+                  alt={`${period.name}`} 
+                />
+                <h2>{period.name}</h2>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

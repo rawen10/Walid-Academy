@@ -4,10 +4,6 @@ import logo from '../../assets/logo.png';
 import fbLogo from '../../assets/fb.png'; // Ensure you have these icons in the assets folder
 import igLogo from '../../assets/ig.png';
 import tiktokLogo from '../../assets/tiktok.png';
-// gergegergege
-// gergegergege
-// gergegergege
-// rgrgegegegege
 
 function Footer() {
   return (

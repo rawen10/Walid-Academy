@@ -99,7 +99,7 @@ function AppRouter() {
             <Route path="/subjects" element={<><StudentNavbar user={user} /><Subjects /></>} />
             <Route path="/help" element={<><StudentNavbar user={user} /><Help /></>} />
             <Route path="/subject/:subjectId/periods" element={<><StudentNavbar user={user} /><SubjectDetails /></>} />
-            <Route path="/subject/:subjectName/period/:periodNumber" element={<><StudentNavbar user={user} /><PeriodDetails /></>} />
+            <Route path="/subject/:subjectId/period/:periodId"  element={<><StudentNavbar user={user} /><PeriodDetails /></>} />
             <Route path="/subject/:subjectName/period/:periodNumber/lesson/:lessonNumber" element={<><StudentNavbar user={user} /><LessonDetails /></>} />
           </>
         )}

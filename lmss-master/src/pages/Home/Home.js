@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from '../../component/NavBar/header';
 import Footer from '../../component/Footer/footer';
 import './Home.css';
-import backgroundImage from '../../assets/em.avif'; 
+import backgroundImage from '../../assets/1.jpg'; 
 
 const Home = () => {
   return (
@@ -11,13 +11,8 @@ const Home = () => {
       <Header />
       <div className="home-content" id='home'>
         <div className="content-with-background" style={{ backgroundImage: `url(${backgroundImage})` }}>
-          <h1>وليد أكاديمي</h1>
-          <h2>منصّة تعليميّة عبر الإنترنت في تونس</h2>
-          <p>
-            تمتع الآن بدروس دعم عبر الإنترنت في جميع المواد لتلاميذ المدارس في جميع المستويات 
-            (من الاولى ابتدائي الى السادسة)
-          </p>
-          <Link to="/register" className="start-button">ابدأ الآن</Link>
+         
+          <Link   to="/register" className="start-button">ابدأ الآن</Link>
         </div>
         <div id="about" className="about-section">
           <h2>من نحن؟</h2>
@@ -44,14 +39,14 @@ const Home = () => {
         <div id="offers" className="offers-section">
           <h2>عروضنا</h2>
           <p>
-            يمكن أن تشترك اشتراكًا شهريًا أو سنويًا للوصول إلى جميع الدروس والموارد التعليمية 
-            على منصتنا. نقدم خطط اشتراك مرنة لتناسب احتياجاتك.
+            يمكن أن تشترك  سنويًا للوصول إلى جميع الدروس والموارد التعليمية 
+            على منصتنا. نقدم خطة اشتراك مرنة لتناسب احتياجاتك.
           </p>
           <div className="subscription-plans">
            
             <div className="plan">
               <h3>الاشتراك السنوي</h3>
-              <p>احصل على خصم خاص عند الاشتراك لمدة سنة كاملة.</p>
+             
               <Link to="/login" className="subscribe-button">اشترك الآن</Link>
             </div>
           </div>

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import mathImage from '../../assets/math.jpg';
-import scienceImage from '../../assets/science.png';
+import mathImage from '../../assets/2.jpg';
+import scienceImage from '../../assets/44.jpg';
 import './StudentDashboard.css';
 
 const StudentDashboard = () => {

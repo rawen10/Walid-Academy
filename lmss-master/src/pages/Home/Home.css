@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 .home-content {
   width: 100%;
   display: flex;
@@ -9,7 +10,7 @@
 }
 
 .content-with-background {
-  background-image: url('../../assets/em.avif'); /* Ensure this path is correct */
+  background-image: url('../../assets/1.jpg'); 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -22,25 +23,23 @@
   width: 100%;
   max-width: 1400px;
   margin-top: -10px;
-  position: relative; /* Ensure the positioning context for absolute elements */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; 
+  align-items: center;
+  animation: fadeIn 1.5s ease-in-out;
 }
 
-.content-with-background h1 {
-  font-size: 3.1em;
-  margin-bottom: 10px;
-  z-index: 1; /* Ensure text is above the background image */
-}
-
-.content-with-background h2 {
-  font-size: 2.4em;
-  margin-bottom: 20px;
-  z-index: 1;
-}
-
-.content-with-background p {
-  font-size: 1.9em;
-  margin-bottom: 30px;
-  z-index: 1;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .start-button {
@@ -53,6 +52,20 @@
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
   z-index: 1;
+  margin-bottom: 20px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .start-button:hover {
@@ -70,12 +83,27 @@
   width: 100%;
   max-width: 1400px;
   margin-top: 20px;
+  animation: slideUp 1s ease-in-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .subscription-plans {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
   margin-top: 20px;
+  animation: slideUp 1.5s ease-in-out;
 }
 
 .plan {
@@ -84,6 +112,23 @@
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 45%;
+  margin: 10px;
+  animation: bounceIn 1.2s ease-in-out;
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .plan h3 {
@@ -103,4 +148,45 @@
 .subscribe-button:hover {
   background-color: #0056b3;
   transform: translateY(-3px);
+}
+
+@media (max-width: 768px) {
+  .content-with-background {
+    height: 400px;
+    padding: 20px;
+  }
+
+  .start-button {
+    font-size: 1.8em;
+    padding: 8px 16px;
+  }
+
+  .about-section, .platform-section, .content-section, .offers-section {
+    padding: 20px;
+  }
+
+  .plan {
+    width: 100%;
+  }
+
+  .subscription-plans {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-with-background {
+    height: 300px;
+    padding: 15px;
+  }
+
+  .start-button {
+    font-size: 1.5em;
+    padding: 6px 12px;
+  }
+
+  .about-section, .platform-section, .content-section, .offers-section {
+    padding: 15px;
+  }
 }
