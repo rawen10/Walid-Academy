@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import mathImage from "../../assets/math.jpg"; // Math image
-import scienceImage from "../../assets/science.png"; // Science image
 import pic1 from "../../assets/2.jpg"; // Image for الرياضيات (Math in Arabic)
 import pic2 from "../../assets/44.jpg"; // Image for other subjects
 import "./Subjects.css"; // CSS for styling
@@ -25,8 +23,11 @@ const Subjects = () => {
       });
   }, []);
 
-  const handleSubjectClick = (subject) => {
-    navigate(`/subject/${subject}`); // Navigate to specific subject
+  console.log("subjects", subjects);
+
+  const handleSubjectClick = (subjectId, subjectName) => {
+    // Navigate to the specific subject's periods, passing the subject's ID and name
+    navigate(`/subject/${subjectId}/periods`, { state: { subjectName } });
   };
 
   return (
@@ -37,7 +38,11 @@ const Subjects = () => {
           <p>ابدا الدراسة الان واستفد من الدروس والتمارين التفاعلية.</p>
           <div className="subjects">
             {subjects.map((subject) => (
-              <div key={subject.id} className="subject-card" onClick={() => handleSubjectClick(subject)}>
+              <div
+                key={subject.id}
+                className="subject-card"
+                onClick={() => handleSubjectClick(subject.id, subject.name)} // Pass subject ID and name
+              >
                 <img
                   src={subject.name === "الرياضيات" ? pic1 : pic2} // Conditional image rendering based on subject name
                   alt={`Subject ${subject.name}`}
