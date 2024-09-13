@@ -23,7 +23,10 @@ const AdminSubjects = () => {
         .then(response => {
           const initialSubjects = response.data.map(subject => ({
             ...subject,
-            periods: subject.periods || [],
+            periods: subject.periods.map(period => ({
+              ...period,
+              lessons: period.lessons || [], // Ensure lessons is initialized
+            })) || [],
           }));
           setSubjects(initialSubjects);
           setSelectedSubjectIndex(null);
@@ -36,6 +39,7 @@ const AdminSubjects = () => {
       setSelectedSubjectIndex(null);
     }
   }, [selectedClass]);
+  
 
   // Add a new subject
   const handleAddSubject = () => {
@@ -53,9 +57,13 @@ const AdminSubjects = () => {
       alert('Please fill out the subject name.');
     }
   };
-  const handleDeleteSubject = (subjectIndex) => {
-    const subjectToDelete = subjects[subjectIndex];
+  // Delete a subject with confirmation
+const handleDeleteSubject = (subjectIndex) => {
+  const subjectToDelete = subjects[subjectIndex];
   
+  const isConfirmed = window.confirm("هل أنت متأكد أنك تريد حذف هذه المادة؟");
+  
+  if (isConfirmed) {
     axios
       .delete(`http://localhost:5000/subjects/${subjectToDelete.id}`)
       .then(() => {
@@ -66,7 +74,8 @@ const AdminSubjects = () => {
       .catch(error => {
         console.error('Error deleting subject:', error);
       });
-  };
+  }
+};
   
 
   // Add a new period
@@ -94,23 +103,26 @@ const AdminSubjects = () => {
   };
 
   // Delete a period
-  const handleDeletePeriod = periodIndex => {
+  const handleDeletePeriod = (periodIndex) => {
     const selectedSubject = subjects[selectedSubjectIndex];
     const periodToDelete = selectedSubject.periods[periodIndex];
-
-    axios
-      .delete(`http://localhost:5000/period/${periodToDelete.id}`)
-      .then(() => {
-        const updatedSubjects = [...subjects];
-        updatedSubjects[selectedSubjectIndex].periods.splice(periodIndex, 1);
-        setSubjects(updatedSubjects);
-        setSelectedPeriodIndex(null);
-      })
-      .catch(error => {
-        console.error('Error deleting period:', error);
-      });
+  
+    const isConfirmed = window.confirm("هل أنت متأكد أنك تريد حذف هذه الفترة؟");
+  
+    if (isConfirmed) {
+      axios
+        .delete(`http://localhost:5000/period/${periodToDelete.id}`)
+        .then(() => {
+          const updatedSubjects = [...subjects];
+          updatedSubjects[selectedSubjectIndex].periods.splice(periodIndex, 1);
+          setSubjects(updatedSubjects);
+          setSelectedPeriodIndex(null);
+        })
+        .catch(error => {
+          console.error('Error deleting period:', error);
+        });
+    }
   };
-
   // Add a new lesson
   const handleAddLesson = () => {
     if (newLesson.name.trim() !== '' && selectedPeriodIndex !== null && selectedSubjectIndex !== null) {
@@ -154,11 +166,14 @@ const AdminSubjects = () => {
       });
   };
 
-  // Delete a lesson
-  const handleDeleteLesson = lessonIndex => {
-    const selectedPeriod = subjects[selectedSubjectIndex].periods[selectedPeriodIndex];
-    const lessonToDelete = selectedPeriod.lessons[lessonIndex];
+  // Delete a lesson with confirmation
+const handleDeleteLesson = (lessonIndex) => {
+  const selectedPeriod = subjects[selectedSubjectIndex].periods[selectedPeriodIndex];
+  const lessonToDelete = selectedPeriod.lessons[lessonIndex];
 
+  const isConfirmed = window.confirm("هل أنت متأكد أنك تريد حذف هذا الدرس؟");
+
+  if (isConfirmed) {
     axios
       .delete(`http://localhost:5000/lessons/${lessonToDelete.id}`)
       .then(() => {
@@ -169,7 +184,8 @@ const AdminSubjects = () => {
       .catch(error => {
         console.error("Error deleting lesson:", error);
       });
-  };
+  }
+};
 
   return (
     <div className="admin-subjects-container">
