@@ -127,6 +127,10 @@ h1 {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
+h3{
+  color: #FFBE00;
+  font-size: 20px;
+}
 
 .tips li::before {
   content: '✔';
