@@ -48,18 +48,7 @@ const AdminUsers = () => {
   };
 
   // Handle deleting a user
-  const handleDeleteUser = async (userId) => {
-    try {
-      const token = JSON.parse(localStorage.getItem('token'));
-      await axios.delete(`http://localhost:5000/users/${userId}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
-    } catch (error) {
-      setError('Failed to delete user.');
-      console.error('Error deleting user:', error);
-    }
-  };
+ 
 
   return (
     <div className="admin-users-container">
@@ -92,12 +81,7 @@ const AdminUsers = () => {
                   {user.access ? <FiXCircle /> : <FiCheckCircle />}
                   {user.access ? 'إلغاء الوصول' : 'منح الوصول'}
                 </button>
-                <button
-                  className="delete-button"
-                  onClick={() => handleDeleteUser(user.id)}
-                >
-                  <FiTrash /> حذف
-                </button>
+                
               </td>
             </tr>
           ))}

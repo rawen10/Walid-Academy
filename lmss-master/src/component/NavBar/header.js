@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppBar, Toolbar, Box, Button, IconButton, Drawer, List, ListItem, ListItemText } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import logo from '../../assets/logo.png'; // Ensure the logo image is correctly placed
+import logo from '../../assets/logo.jpg'; // Ensure the logo image is correctly placed
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);

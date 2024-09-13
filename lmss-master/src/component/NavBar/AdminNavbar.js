@@ -18,11 +18,12 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
+import GroupIcon from "@mui/icons-material/Group"; // Changed icon
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import HelpIcon from "@mui/icons-material/Help";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Navigate, NavLink, useLocation } from "react-router-dom";
-import logo from "../../assets/logo.png"; // Import the logo
+import logo from "../../assets/logo.jpg"; // Import the logo
 
 const drawerWidth = 240;
 
@@ -114,8 +115,9 @@ const AdminNavbar = ({ user }) => {
     window.location.reload();
     Navigate("/login");
   };
-  const adminName =  `${user?.prenom} ${user?.nom}`;
-  console.log(user,"user")
+
+  const adminName = `${user?.prenom} ${user?.nom}`;
+  console.log(user, "user");
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -172,7 +174,7 @@ const AdminNavbar = ({ user }) => {
             },
             {
               text: "إدارة المستخدمين",
-              icon: <PersonIcon />,
+              icon: <GroupIcon />, // Changed icon here
               path: "/adminusers",
             },
             { text: "مساعدة", icon: <HelpIcon />, path: "/adminhelp" },

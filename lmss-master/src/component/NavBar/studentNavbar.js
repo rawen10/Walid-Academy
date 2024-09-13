@@ -19,12 +19,12 @@ import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import BookIcon from '@mui/icons-material/Book';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import HelpIcon from '@mui/icons-material/Help';
-import SearchIcon from '@mui/icons-material/Search';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useState } from 'react';
 import { Navigate, NavLink, useLocation } from 'react-router-dom';
-import logo from '../../assets/logo.png'; // Import the logo
+import logo from '../../assets/logo.jpg'; // Import the logo
 
 const drawerWidth = 240;
 
@@ -76,8 +76,8 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })((
+  { theme, open }) => ({
     '& .MuiDrawer-paper': {
       backgroundColor: '#f5f5f5',
     },
@@ -102,7 +102,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-const StudentNavbar = ({user}) => {
+const StudentNavbar = ({ user }) => {
   const theme = useTheme();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
@@ -117,8 +117,8 @@ const StudentNavbar = ({user}) => {
     Navigate('/login'); 
   };
 
-  const userName =  `${user?.prenom} ${user?.nom}`;
-  const userClass =  `${user?.classe}`;
+  const userName = `${user?.prenom} ${user?.nom}`;
+  const userClass = `${user?.classe}`;
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -156,7 +156,7 @@ const StudentNavbar = ({user}) => {
           {[
             { text: 'الإستقبال', icon: <HomeIcon />, path: '/dashboardstudent' },
             { text: 'ملفي الشخصي', icon: <PersonIcon />, path: '/profile' },
-            { text: 'العروض', icon: <BookIcon />, path: '/offers' },
+            { text: 'العروض', icon: <AssignmentIcon />, path: '/offers' },
             { text: 'المواد', icon: <BookIcon />, path: '/subjects' },
             { text: 'مساعدة', icon: <HelpIcon />, path: '/help' },
           ].map((item) => (
@@ -204,8 +204,7 @@ const StudentNavbar = ({user}) => {
                 justifyContent: isSidebarOpen ? 'initial' : 'center',
                 px: 2.5,
               }}
-              onClick={handleLogout} // Attach the handleLogout function here
-
+              onClick={handleLogout}
             >
               <ListItemIcon
                 sx={{
