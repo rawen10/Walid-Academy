@@ -6,11 +6,14 @@ const AdminSubjects = () => {
   const classesOptions = ['السادسة']; // Predefined class
 
   const [selectedClass, setSelectedClass] = useState('');
-  const [subjects, setSubjects] = useState([]);
+  const [subjects, setSubjects] = useState([]);  // Initialize as an array
+  const [newSubject, setNewSubject] = useState({ name: '' }); // Separate state for new subject
   const [selectedSubjectIndex, setSelectedSubjectIndex] = useState(null);
   const [newPeriod, setNewPeriod] = useState({ name: '', urlPic: '' });
   const [selectedPeriodIndex, setSelectedPeriodIndex] = useState(null);
   const [newLesson, setNewLesson] = useState({ name: '', videoLink: '', urlPowerPonit: '', urlPic: '' });
+  // const [newSubject, setNewSubject] = useState({ name: '' });
+
 
   // Fetch subjects when a class is selected
   useEffect(() => {
@@ -24,7 +27,6 @@ const AdminSubjects = () => {
           }));
           setSubjects(initialSubjects);
           setSelectedSubjectIndex(null);
-          setSelectedPeriodIndex(null);
         })
         .catch(error => {
           console.error("Error fetching subjects:", error);
@@ -32,9 +34,40 @@ const AdminSubjects = () => {
     } else {
       setSubjects([]);
       setSelectedSubjectIndex(null);
-      setSelectedPeriodIndex(null);
     }
   }, [selectedClass]);
+
+  // Add a new subject
+  const handleAddSubject = () => {
+    if (newSubject.name.trim() !== '') {
+      axios
+        .post('http://localhost:5000/subjects', { name: newSubject.name })
+        .then(response => {
+          setSubjects([...subjects, { ...response.data, periods: [] }]);
+          setNewSubject({ name: '' });
+        })
+        .catch(error => {
+          console.error('Error adding subject:', error);
+        });
+    } else {
+      alert('Please fill out the subject name.');
+    }
+  };
+  const handleDeleteSubject = (subjectIndex) => {
+    const subjectToDelete = subjects[subjectIndex];
+  
+    axios
+      .delete(`http://localhost:5000/subjects/${subjectToDelete.id}`)
+      .then(() => {
+        // Remove the subject from the frontend state
+        const updatedSubjects = subjects.filter((_, index) => index !== subjectIndex);
+        setSubjects(updatedSubjects);
+      })
+      .catch(error => {
+        console.error('Error deleting subject:', error);
+      });
+  };
+  
 
   // Add a new period
   const handleAddPeriod = () => {
@@ -145,28 +178,53 @@ const AdminSubjects = () => {
 
         {/* Class selection */}
         <div className="section">
-          <h2>إدارة الفصول</h2>
-          <select value={selectedClass} onChange={e => setSelectedClass(e.target.value)}>
-            <option value="" disabled>
-              اختر الفصل
-            </option>
-            {classesOptions.map((cls, index) => (
-              <option key={index} value={cls}>
-                {cls}
-              </option>
-            ))}
-          </select>
-        </div>
+      <h2>إدارة الفصول</h2>
+      <select value={selectedClass} onChange={e => setSelectedClass(e.target.value)}>
+        <option value="" disabled>
+          اختر الفصل
+        </option>
+        {classesOptions.map((cls, index) => (
+          <option key={index} value={cls}>
+            {cls}
+          </option>
+        ))}
+      </select>
+
+      {selectedClass && (
+        <>
+          <h2>إدارة المواد</h2>
+
+          <input
+            type="text"
+            placeholder="اسم المادة"
+            value={newSubject.name}
+            onChange={e => setNewSubject({ name: e.target.value })}
+          />
+          <button onClick={handleAddSubject}>إضافة مادة</button>
+
+          <div className="subjects-list">
+            {subjects.map((subject, index) => (
+              <div key={index} className="subject-item">
+                <h3>{subject.name}</h3>
+                <button onClick={() => setSelectedSubjectIndex(index)}>إدارة الفترات</button>
+          </div>
+        ))}
+      </div>
+    </>
+  )}
+</div>
+
 
         {/* Subject management */}
         {selectedClass && (
           <div className="section">
             <h2>إدارة المواد</h2>
             <div className="subjects-list">
-              {subjects.map((subject, index) => (
-                <div key={index} className="subject-item">
-                  <h3>{subject.name}</h3>
-                  <button onClick={() => setSelectedSubjectIndex(index)}>إدارة الفترات</button>
+  {subjects.map((subject, index) => (
+    <div key={index} className="subject-item">
+      <h3>{subject.name}</h3>
+      <button onClick={() => setSelectedSubjectIndex(index)}>إدارة الفترات</button>
+      <button onClick={() => handleDeleteSubject(index)}>حذف المادة</button> {/* Delete Button */}
                 </div>
               ))}
             </div>
