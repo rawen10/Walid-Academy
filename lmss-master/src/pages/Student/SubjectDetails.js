@@ -1,43 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const SubjectDetails = ({ subjectId, token }) => {
-  const [periods, setPeriods] = useState([]);
-  const [error, setError] = useState('');
+import mathImage from '../../assets/math.jpg';
+import scienceImage from '../../assets/science.png';
+import './SubjectDetails.css';
 
-  // Function to fetch periods for a specific subject
-  const fetchPeriods = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/subjects/${subjectId}/periods`, {
-        headers: {
-          Authorization: `Bearer ${token}`, // Pass the token in the headers
-        },
-      });
-      setPeriods(response.data);
-    } catch (err) {
-      setError('Error fetching periods');
-      console.error('Error fetching periods:', err);
-    }
+const SubjectDetails = () => {
+  const { subject } = useParams();
+  const navigate = useNavigate();
+  const isMath = subject === 'math';
+
+  const periods = [
+    { name: 'الفترة الأولى', image: isMath ? mathImage : scienceImage },
+    { name: 'الفترة الثانية', image: isMath ? mathImage : scienceImage },
+    { name: 'الفترة الثالثة', image: isMath ? mathImage : scienceImage },
+    { name: 'الفترة الرابعة', image: isMath ? mathImage : scienceImage },
+    { name: 'الفترة الخامسة', image: isMath ? mathImage : scienceImage },
+    { name: 'الفترة السادسة', image: isMath ? mathImage : scienceImage }
+  ];
+
+  const handlePeriodClick = (period) => {
+    navigate(`/subject/${subject}/period/${period}`);
   };
-
-  useEffect(() => {
-    if (subjectId) {
-      fetchPeriods();
-    }
-  }, [subjectId]);
 
   return (
     <div>
-      <h1>Subject Details</h1>
-      {error && <p>{error}</p>}
-      <ul>
-        {periods.map((period) => (
-          <li key={period.id}>
-            <h3>{period.name}</h3>
-            <img src={period.urlPic} alt={period.name} />
-          </li>
-        ))}
-      </ul>
+     
+      <div className="subject-details">
+        <h1>{isMath ? 'مادة الرياضيات' : 'مادة الإيقاظ العلمي'}</h1>
+        <div className="periods">
+          {periods.map((period, index) => (
+            <div key={index} className="period-card" onClick={() => handlePeriodClick(period.name)}>
+              <img src={period.image} alt={`${period.name}`} />
+              <h2>{period.name}</h2>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

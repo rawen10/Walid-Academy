@@ -2,6 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 .subject-details {
+  margin-top: 300px;
+  margin-left: 100px;
   padding: 20px;
   text-align: center;
   font-family: 'Roboto', sans-serif;
