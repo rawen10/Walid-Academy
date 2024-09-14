@@ -40,7 +40,8 @@ const SubjectDetails = () => {
 
   // Handle period click to navigate to the period details page
   const handlePeriodClick = (periodId) => {
-    navigate(`/subject/${subjectId}/period/${periodId}`);
+    navigate(`/period/${periodId}`);
+    console.log("id",periodId)
   };
 
   if (loading) {
@@ -62,7 +63,7 @@ const SubjectDetails = () => {
             console.log(`Period Name: ${period.name}, URL: ${period.urlPic}`);
 
             return (
-              <div key={index} className="period-card" onClick={() => handlePeriodClick(period.name)}>
+              <div key={index} className="period-card" onClick={() => handlePeriodClick(period.id)}>
                 <img 
                   src={directImageUrl} 
                   alt={`${period.name}`} 

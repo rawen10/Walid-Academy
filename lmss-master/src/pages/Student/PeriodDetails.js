@@ -26,6 +26,7 @@ const PeriodDetails = () => {
     const fetchLessons = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/period/${periodId}`);
+        console.log("id",periodId)
         if (response.data) {
           setLessons(response.data.lessons || []); // Store lessons in state
           setSubjectName(response.data.subject?.name || 'Unknown Subject');
@@ -44,11 +45,8 @@ const PeriodDetails = () => {
 
   // Handle lesson click to navigate to the lesson details page
   const handleLessonClick = (lessonId) => {
-    if (subjectId) {
-      navigate(`/subject/${subjectId}/period/${periodId}/lesson/${lessonId}`);
-    } else {
-      setError("Subject ID is missing");
-    }
+      navigate(`/lesson/${lessonId}`);
+
   };
 
   if (loading) {
@@ -60,7 +58,7 @@ const PeriodDetails = () => {
   }
 
   if (lessons.length === 0) {
-    return <div>No lessons available for this period.</div>;
+    return <div style={{marginTop:300, marginLeft:100}}>No lessons available for this period.</div>;
   }
 
   return (
