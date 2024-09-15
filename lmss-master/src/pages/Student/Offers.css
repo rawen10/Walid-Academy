@@ -10,6 +10,7 @@
 
 .offer-content {
   background: #f9f9f9;
+  margin-top: 20px;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -75,3 +76,8 @@
 .subscribe-button:hover {
   background-color: #218838;
 }
+@media (max-width: 768px) {
+  .offer-content {
+    margin-left: 60px; /* Adjust this to your needs */
+    padding-left: 10px; /* Slight padding for better readability */}
+  }

@@ -47,9 +47,6 @@ const AdminUsers = () => {
     }
   };
 
-  // Handle deleting a user
- 
-
   return (
     <div className="admin-users-container">
       <h1>إدارة المستخدمين</h1>
@@ -60,6 +57,7 @@ const AdminUsers = () => {
             <th>اللقب</th>
             <th>الإسم</th>
             <th>رقم الهاتف</th>
+            <th>البريد الإلكتروني</th>
             <th>القسم</th>
             <th>الوصول للفيديوهات</th>
             <th>إجراءات</th>
@@ -71,6 +69,7 @@ const AdminUsers = () => {
               <td>{user.nom}</td>
               <td>{user.prenom}</td>
               <td>{user.telephone}</td>
+              <td>{user.email }</td>
               <td>{user.classe}</td>
               <td>{user.access ? 'نعم' : 'لا'}</td>
               <td>
@@ -81,7 +80,6 @@ const AdminUsers = () => {
                   {user.access ? <FiXCircle /> : <FiCheckCircle />}
                   {user.access ? 'إلغاء الوصول' : 'منح الوصول'}
                 </button>
-                
               </td>
             </tr>
           ))}

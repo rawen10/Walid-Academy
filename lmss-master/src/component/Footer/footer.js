@@ -1,6 +1,6 @@
 import React from 'react';
 import './footer.css';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logo.jpg';
 import fbLogo from '../../assets/fb.png'; // Ensure you have these icons in the assets folder
 import igLogo from '../../assets/ig.png';
 import tiktokLogo from '../../assets/tiktok.png';
@@ -20,8 +20,8 @@ function Footer() {
         <a href="#">تواصل معنا</a>
       </nav>
       <div className="footer-social-media">
-        <a href="#"><img src={fbLogo} alt="Facebook Logo" /></a>
-        <a href="#"><img src={igLogo} alt="Instagram Logo" /></a>
+        <a href="https://www.facebook.com/profile.php?id=61561226583004&mibextid=ZbWKwL"><img src={fbLogo} alt="Facebook Logo" /></a>
+        <a href="https://www.instagram.com/academy_bouhouch/"><img src={igLogo} alt="Instagram Logo" /></a>
         <a href="#"><img src={tiktokLogo} alt="TikTok Logo" /></a>
       </div>
       <div className="footer-copyright">

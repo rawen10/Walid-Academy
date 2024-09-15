@@ -1,15 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
 body {
   background-color: #f0f2f5;
 }
 
 .dashboard-content {
-  margin-top: 100px; /* Ensures it is below the navbar */
+  margin-top: 100px; /* Space below the header */
   padding: 20px;
   text-align: center;
   font-family: 'Roboto', sans-serif;
-
+  transition: margin-left 0.3s ease;
 }
 
 h1 {
@@ -127,7 +125,8 @@ h1 {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
-h3{
+
+h3 {
   color: #FFBE00;
   font-size: 20px;
 }
@@ -166,6 +165,11 @@ h3{
 
 /* Responsive design */
 @media (max-width: 768px) {
+  .dashboard-content {
+    margin-left: 70px; /* Adjust this to your needs */
+    padding-left: 10px; /* Slight padding for better readability */
+  }
+
   .subject-card {
     width: 80%;
     margin-bottom: 20px;

@@ -93,14 +93,14 @@ function AppRouter() {
         {user && userRole === "Student" && (
           <>
             <Route path="/dashboardstudent" element={<><StudentNavbar user={user} /><StudentDashboard /></>} />
-            <Route path="/profile" element={<><StudentNavbar user={user} /><Profile /></>} />
+            <Route path="/profile" element={<><StudentNavbar user={user} /><Profile user={user}/></>} />
             <Route path="/profile/edit" element={<><StudentNavbar user={user} /><ProfileEdit /></>} />
             <Route path="/offers" element={<><StudentNavbar user={user} /><Offers /></>} />
             <Route path="/subjects" element={<><StudentNavbar user={user} /><Subjects /></>} />
             <Route path="/help" element={<><StudentNavbar user={user} /><Help /></>} />
             <Route path="/subject/:subjectId/periods" element={<><StudentNavbar user={user} /><SubjectDetails /></>} />
-            <Route path="/period/:periodId"  element={<><StudentNavbar user={user} /><PeriodDetails /></>} />
-            <Route path="/lesson/:lessonId" element={<><StudentNavbar user={user} /><LessonDetails /></>} />
+            <Route path="/period/:periodId"   element={<><StudentNavbar user={user} /><PeriodDetails /></>} />
+            <Route path="/lesson/:lessonId" element={<><StudentNavbar user={user} /><LessonDetails  user={user} /></>} />
           </>
 
 

@@ -1,77 +1,147 @@
+/* General styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
 .lesson-detail-container {
   max-width: 800px;
-  margin: 0 auto;
+  margin: 50px auto;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
 }
 
 .lesson-detail-container h1 {
-  font-size: 2.2rem;
-  color: #333;
   text-align: center;
+  color: #4caf50;
+  font-size: 2.2rem;
   margin-bottom: 20px;
 }
 
+.lesson-detail-container h2 {
+  color: #333;
+  font-size: 1.6rem;
+  margin: 20px 0 10px;
+}
+
+/* Video and PowerPoint Sections */
 .lesson-video,
-.lesson-powerpoint,
-.lesson-image {
+.lesson-powerpoint {
+  display: flex;
+  justify-content: center;
   margin-bottom: 30px;
 }
 
-.lesson-video iframe {
-  display: block;
+.lesson-video iframe,
+.lesson-powerpoint iframe {
+  border: 2px solid #4caf50;
+  border-radius: 8px;
   width: 100%;
-  height: 400px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  max-width: 640px;
+  height: 360px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.lesson-powerpoint a {
-  display: inline-block;
-  font-size: 1.2rem;
-  color: #3498db;
-  text-decoration: none;
-  background-color: #ecf0f1;
-  padding: 10px 15px;
+/* Error Message */
+.error-message {
+  text-align: center;
+  color: #e74c3c;
+  background-color: #fddede;
+  padding: 15px;
   border-radius: 5px;
-  transition: background-color 0.3s;
+  margin: 20px 0;
+  font-weight: bold;
 }
 
-.lesson-powerpoint a:hover {
-  background-color: #3498db;
-  color: white;
+/* Loading Spinner */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #555;
 }
 
-.lesson-image img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+/* Accessibility and visibility message */
+.lesson-detail-container p {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #888;
 }
 
-.lesson-image img:hover {
-  transform: scale(1.05);
-  transition: transform 0.3s ease-in-out;
+/* Hover Effects */
+.lesson-detail-container h1:hover {
+  color: #388e3c;
 }
 
-@media screen and (max-width: 768px) {
+.lesson-video iframe:hover,
+.lesson-powerpoint iframe:hover {
+  transform: scale(1.02);
+  border-color: #388e3c;
+}
+
+/* Responsive design for tablets */
+@media (max-width: 768px) {
   .lesson-detail-container {
     padding: 15px;
   }
 
+  .lesson-video iframe,
+  .lesson-powerpoint iframe {
+    height: 280px;
+  }
+}
+
+/* Mobile-friendly styles */
+@media (max-width: 480px) {
+  .lesson-detail-container {
+    max-width: 100%;
+    margin: 20px;
+    margin-right: -30px;
+    padding: 15px;
+  }
+
   .lesson-detail-container h1 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
+    margin-bottom: 15px;
   }
 
-  .lesson-video iframe {
-    height: 240px;
+  .lesson-detail-container h2 {
+    font-size: 1.3rem;
+    margin: 15px 0;
   }
 
-  .lesson-powerpoint a {
+  .lesson-video iframe,
+  .lesson-powerpoint iframe {
+    width: 100%;
+    height: 200px;
+    max-width: 100%;
+    border-radius: 6px;
+  }
+
+  /* Adjust margins and padding */
+  .lesson-video,
+  .lesson-powerpoint {
+    margin-bottom: 20px;
+  }
+
+  /* Error Message */
+  .error-message {
+    padding: 10px;
     font-size: 1rem;
-    padding: 8px 12px;
+  }
+
+  /* Accessibility message */
+  .lesson-detail-container p {
+    font-size: 1rem;
   }
 }

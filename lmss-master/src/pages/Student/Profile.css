@@ -77,3 +77,8 @@
   display: block;
   margin-bottom: 5px;
 }
+@media (max-width: 768px) {
+  .profile-content {
+    margin-left: 60px; /* Adjust this to your needs */
+    padding-left: 10px; /* Slight padding for better readability */}
+  }

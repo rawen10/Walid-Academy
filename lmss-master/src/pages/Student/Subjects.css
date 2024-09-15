@@ -149,3 +149,9 @@
   background-color: #218838;
   transform: scale(1.05);
 }
+@media (max-width: 768px) {
+  .subjects-content {
+    margin-left: 60px; 
+    padding-left: 10px; /* Slight padding for better readability */
+  }
+}

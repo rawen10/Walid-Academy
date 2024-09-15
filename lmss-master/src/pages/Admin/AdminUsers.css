@@ -1,50 +1,114 @@
+/* Container styling */
 .admin-users-container {
-    padding: 20px;
-    margin-top: 80px;
-    margin-left: 110px;
-    
-    width: 80%;
+  padding: 20px;
+  margin-top: 80px;
+  margin-left: 110px;
+  width: 80%;
+}
+
+/* Centering the heading */
+h1 {
+  text-align: center;
+}
+
+/* Table styling */
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  table-layout: auto; /* Ensures proper table width on smaller screens */
+}
+
+/* Table cells */
+.users-table th, .users-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+/* Table header styling */
+.users-table th {
+  background-color: #f2f2f2;
+}
+
+/* Access buttons styling */
+.access-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.access-button.grant {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.access-button.revoke {
+  background-color: #f44336;
+  color: white;
+}
+
+.access-button svg {
+  margin-right: 5px;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  .admin-users-container {
+    margin-left: 0; /* Remove left margin on smaller screens */
+    width: 100%;    /* Make container full width */
+    padding: 10px;  /* Reduce padding for mobile */
   }
-  h1{
-    text-align: center;
-  }
+
   .users-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+    font-size: 0.9rem; /* Reduce font size for readability */
   }
-  
+
   .users-table th, .users-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
+    padding: 6px;  /* Reduce padding in table cells */
   }
-  
+
   .users-table th {
-    background-color: #f2f2f2;
+    font-size: 0.9rem;
   }
-  
+
+  /* Stack buttons vertically */
   .access-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    flex-direction: column;
+    padding: 8px 5px;
+    font-size: 0.85rem; /* Adjust button text size */
   }
-  
-  .access-button.grant {
-    background-color: #4CAF50;
-    color: white;
+
+  /* Adjust left menu (make sure to add this class to your left menu container) */
+  .left-menu {
+    width: 100%;   /* Make the menu full width on mobile */
+    margin-left: 0;
+    margin-top: 10px;
+    padding: 10px;
   }
-  
-  .access-button.revoke {
-    background-color: #f44336;
-    color: white;
+
+  /* Hide menu by default on mobile, show when user clicks a button */
+  .left-menu.hidden {
+    display: none; /* You can toggle this class with JavaScript */
   }
-  
-  .access-button svg {
-    margin-right: 5px;
+}
+
+/* Tablet-specific styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .admin-users-container {
+    margin-left: 60px; /* Reduce left margin on tablets */
+    width: 90%;        /* Make container wider on tablets */
   }
-  
+
+  .users-table {
+    font-size: 1rem;
+  }
+
+  .access-button {
+    padding: 6px 8px;
+  }
+}

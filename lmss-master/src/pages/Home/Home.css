@@ -26,7 +26,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; 
+  justify-content: flex-end;
   align-items: center;
   animation: fadeIn 1.5s ease-in-out;
 }
@@ -84,6 +84,7 @@
   max-width: 1400px;
   margin-top: 20px;
   animation: slideUp 1s ease-in-out;
+  box-sizing: border-box;
 }
 
 @keyframes slideUp {
@@ -150,6 +151,7 @@
   transform: translateY(-3px);
 }
 
+/* Responsive Adjustments */
 @media (max-width: 768px) {
   .content-with-background {
     height: 400px;
@@ -176,6 +178,11 @@
 }
 
 @media (max-width: 480px) {
+  .home-content {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
   .content-with-background {
     height: 300px;
     padding: 15px;
@@ -188,5 +195,11 @@
 
   .about-section, .platform-section, .content-section, .offers-section {
     padding: 15px;
+  }
+
+  .plan {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
   }
 }

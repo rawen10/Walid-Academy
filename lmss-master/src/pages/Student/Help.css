@@ -87,3 +87,8 @@
 .social-media-logos img:hover {
   transform: scale(1.1);
 }
+@media (max-width: 768px) {
+  .help-content {
+    margin-left: 60px; /* Adjust this to your needs */
+    padding-left: 10px; /* Slight padding for better readability */}
+  }

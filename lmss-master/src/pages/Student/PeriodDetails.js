@@ -11,6 +11,7 @@ const PeriodDetails = () => {
   const [error, setError] = useState(null); // Error state
   const [subjectName, setSubjectName] = useState(''); // State to store subject name
   const [subjectId, setSubjectId] = useState(null); // State to store subject ID
+  const [periodName, setPeriodName] = useState(''); // State to store period name
 
   // Helper function to convert Google Drive link to direct thumbnail link
   const getGoogleDriveImageLink = (urlPic) => {
@@ -21,16 +22,17 @@ const PeriodDetails = () => {
     return urlPic; // If not a Google Drive link, return the original URL
   };
 
-  // Fetch lessons and subject name from the backend for the given period
+  // Fetch lessons and period details from the backend for the given period
   useEffect(() => {
     const fetchLessons = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/period/${periodId}`);
-        console.log("id",periodId)
+        console.log("id", periodId);
         if (response.data) {
           setLessons(response.data.lessons || []); // Store lessons in state
           setSubjectName(response.data.subject?.name || 'Unknown Subject');
           setSubjectId(response.data.subject?.id || null); // Get the subjectId for the new URL structure
+          setPeriodName(response.data.name || `الفترة ${periodId}`); // Set the period name from the response
         }
         setLoading(false); // Turn off loading state
       } catch (err) {
@@ -46,7 +48,6 @@ const PeriodDetails = () => {
   // Handle lesson click to navigate to the lesson details page
   const handleLessonClick = (lessonId) => {
       navigate(`/lesson/${lessonId}`);
-
   };
 
   if (loading) {
@@ -64,7 +65,7 @@ const PeriodDetails = () => {
   return (
     <div>
       <div className="period-details">
-        <h1>الفترة {periodId} - {subjectName}</h1> {/* Display period number and subject name */}
+        <h1>{periodName} </h1> {/* Display period name instead of periodId */}
         <div className="lessons">
           {lessons.map((lesson, index) => {
             const directImageUrl = getGoogleDriveImageLink(lesson.urlPic);

@@ -3,10 +3,12 @@ import axios from 'axios';
 import './LessonDetails.css';
 import { useParams } from 'react-router-dom';
 
-const LessonDetail = () => {
+const LessonDetail = ({ user }) => {
   const { lessonId } = useParams(); // Get lesson ID from URL parameters
   const [lesson, setLesson] = useState(null);
   const [error, setError] = useState(null); // State to handle errors
+
+  console.log("User access:", user?.access);
 
   useEffect(() => {
     // Fetch the lesson details based on the lessonId
@@ -41,10 +43,10 @@ const LessonDetail = () => {
     <div className="lesson-detail-container">
       <h1>{lesson.title}</h1>
 
-      {/* Video Section */}
-      {lesson.urlVideo ? (
+     
+      {user?.access && lesson.urlVideo ? (
         <div className="lesson-video">
-          <h2>Lesson Video</h2>
+          
           <iframe
             title="lesson-video"
             src={getGoogleDriveEmbedUrl(lesson.urlVideo)}
@@ -55,12 +57,14 @@ const LessonDetail = () => {
             height="480"
           ></iframe>
         </div>
-      ) : null}
+      ) : (
+        !user?.access && <p>يجب عليك الاشتراك لتتمكن من المشاهدة</p>
+      )}
 
       {/* PowerPoint Section */}
-      {lesson.urlPowerPonit ? (
+      {user?.access && lesson.urlPowerPonit ? (
         <div className="lesson-powerpoint">
-          <h2>Lesson PowerPoint</h2>
+          
           <iframe
             title="lesson-presentation"
             src={getGoogleDriveEmbedUrl(lesson.urlPowerPonit)}
@@ -72,13 +76,6 @@ const LessonDetail = () => {
               e.target.style.display = 'none'; // Hide iframe if loading fails
             }}
           ></iframe>
-          <p>
-            If the PowerPoint is not showing, you can{' '}
-            <a href={lesson.urlPowerPonit} target="_blank" rel="noopener noreferrer">
-              view it here
-            </a>{' '}
-            or download it.
-          </p>
         </div>
       ) : null}
     </div>

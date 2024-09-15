@@ -22,14 +22,7 @@ const AdminProfile = ({user}) => {
           <p><strong>البريد الإلكتروني:</strong> {user?.email}</p>
           <p><strong>رقم الهاتف:</strong> {user?.telephone}</p>
         </div>
-        <div className="profile-actions">
-          <Link to="/adminprofile/edit" className="edit-button-link">
-            <button className="edit-button">تعديل الملف الشخصي</button>
-          </Link>
-          <Link to="/adminprofile/changepassword" className="password-button-link">
-            <button className="password-button">تغيير كلمة المرور</button>
-          </Link>
-        </div>
+       
       </div>
     </div>
   );
