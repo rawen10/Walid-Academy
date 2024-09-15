@@ -6,18 +6,14 @@ import './Profile.css';
 const bankDetails = [
   {
     bankName: "بنك الزيتونة",
-    accountName: "WalidAcademy",
-    iban: "25 006 0000000317041 86",
+    accountName: "Bouhouch Walid",
+    iban: "25058000000019370721",
   },
-  {
-    bankName: "بنك تونس العربي الدولي",
-    accountName: "WalidAcademy",
-    iban: "08 139 0310110000790 88",
-  },
+
   {
     bankName: "البريد التونسي",
-    accountName: "WalidAcademy",
-    iban: "1750 3000 0003 1179 2828",
+    accountName: "Carte e-dinar smart",
+    iban: "17535940172451790535",
   },
 ];
 
